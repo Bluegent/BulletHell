@@ -1,4 +1,4 @@
-package com.bluegent.hell;
+package com.bluegent.base;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

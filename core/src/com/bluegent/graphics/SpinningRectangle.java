@@ -1,4 +1,4 @@
-package com.bluegent.hell;
+package com.bluegent.graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;

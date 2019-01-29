@@ -2,6 +2,7 @@ package com.bluegent.hell;
 
 import java.util.ArrayList;
 
+import com.bluegent.base.Controls;
 import com.bluegent.base.GameObject;
 import com.bluegent.utils.GameCfg;
 
@@ -17,11 +18,13 @@ public class PhysicsWorker implements Runnable{
 		work = true;
 		lastTick = System.currentTimeMillis();
 	}
+	
 	public void stop()
 	{ 
-		work = false;
-		
+		work = false;	
 	}
+	
+	
 	@Override
 	public void run() {
 		long now;
@@ -38,7 +41,10 @@ public class PhysicsWorker implements Runnable{
 					objects.get(i).tick(time);
 				}	
 				
-				Thread.sleep((long) GameCfg.TickMS);
+				
+				
+				
+				Thread.sleep(GameCfg.TickMS);
 			}
 		}
 		catch (InterruptedException e) {
