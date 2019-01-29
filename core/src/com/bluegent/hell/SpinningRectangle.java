@@ -30,11 +30,8 @@ public class SpinningRectangle implements GameObject{
 		updateAngle(deltaT);
 	}
 	
-	public void draw(Vector2 pos, ShapeRenderer sh)
+	public void draw(Vector2 pos, RenderHelper rh)
 	{
-		sh.begin(ShapeType.Line);
-		sh.setColor(m_color);
-		sh.rect(pos.x-m_radius, pos.y -m_radius, m_radius,  m_radius, m_size, m_size , 1.0f, 1.0f, m_angle);
-		sh.end();
+		rh.drawRectangle(pos, m_radius, m_angle, m_color);;
 	}
 }

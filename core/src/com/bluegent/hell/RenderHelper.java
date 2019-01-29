@@ -45,4 +45,31 @@ public class RenderHelper {
 	    shapeRenderer.end();
 	}
 	
+	public void drawDebugCrosshair(Vector2 pos, Color color)
+	{
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(color);
+		shapeRenderer.line(0, pos.y, GameCfg.Width,pos.y);
+		shapeRenderer.line(pos.x, 0, pos.x, GameCfg.Height);
+		shapeRenderer.end();
+	}
+	
+	public void drawDebugCrosshair(float x, float y, Color color)
+	{
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(color);
+		shapeRenderer.line(0,y, GameCfg.Width,y);
+		shapeRenderer.line(x, 0, x, GameCfg.Height);
+		shapeRenderer.end();
+	}
+	
+	
+	public void drawRectangle(Vector2 pos, float radius, float angle, Color color)
+	{
+		float size = radius * 2;
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(color);
+		shapeRenderer.rect(pos.x-radius, pos.y -radius, radius,  radius, size, size , 1.0f, 1.0f, angle);
+		shapeRenderer.end();
+	}
 }

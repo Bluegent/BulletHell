@@ -27,7 +27,6 @@ public class PhysicsWorker implements Runnable{
 			{
 				now = System.currentTimeMillis();
 				time = now-lastTick;
-				System.out.println(time);
 				lastTick = now;
 				
 				for(int i=0;i<objects.size();++i)
