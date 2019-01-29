@@ -1,17 +1,12 @@
 package com.bluegent.hell;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.BaseGame;
 import com.bluegent.base.Controls;
-import com.bluegent.base.GameObject;
-import com.bluegent.entities.PlayerShip;
-import com.bluegent.interfaces.DrawableShape;
+import com.bluegent.base.ObjectManager;
 import com.bluegent.utils.GameCfg;
 import com.bluegent.utils.RenderHelper;
 
@@ -19,42 +14,46 @@ public class MainGame extends BaseGame {
 	SpriteBatch batch;
 	private ShapeRenderer shapeRenderer;
 	private RenderHelper rh;
-	private ArrayList<GameObject> objects;
-	private ArrayList<DrawableShape> drawableS;
-	private PlayerShip ship;
+	private ObjectManager objMan;
 	private PhysicsWorker worker;
 	private Thread physicsThread;
+	private BitmapFont font;
 	
 	@Override
 	public void create () {
 		
 		Controls.initKeys();
 		batch = new SpriteBatch();
-		ship = new PlayerShip(new Vector2(GameCfg.Width/2, GameCfg.Height/2));
+		
 		shapeRenderer = new ShapeRenderer();
 		
-		objects = new ArrayList<GameObject>();
-		drawableS = new ArrayList<DrawableShape>();
-		worker = new PhysicsWorker(objects);
+		objMan = new ObjectManager();
+		
+		worker = new PhysicsWorker(objMan);
 		
 		physicsThread = new Thread(worker);
 		physicsThread.start();
-		objects.add(ship);
-		drawableS.add(ship);
+
 		rh = new RenderHelper(shapeRenderer);
 		Gdx.input.setInputProcessor(this);
+		
+		font =  new BitmapFont(Gdx.files.internal("data/default.fnt"),Gdx.files.internal("data/default.png"),false);
 	}
 	
 
 
 	@Override
 	public void drawSprites() {	
+		batch.begin();
+		objMan.drawSprites(batch);
+		String controls = "U:"+Controls.isKeyPressed(Controls.Key.MoveUp) +"\nD:"+Controls.isKeyPressed(Controls.Key.MoveDown)+"\nL:"+Controls.isKeyPressed(Controls.Key.MoveLeft)+"\nR:"+Controls.isKeyPressed(Controls.Key.MoveRight);
+		font.draw(batch, controls,0,GameCfg.Height);
+		batch.end();
 	}
 
 	@Override
 	public void drawShapes() {
-		for(DrawableShape drawMe : drawableS)
-			drawMe.draw(rh);	
+		objMan.drawShapes(rh);
 	}
 	
 	@Override

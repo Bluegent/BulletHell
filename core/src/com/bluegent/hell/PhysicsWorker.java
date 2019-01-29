@@ -1,20 +1,18 @@
 package com.bluegent.hell;
 
-import java.util.ArrayList;
-
-import com.bluegent.base.Controls;
-import com.bluegent.base.GameObject;
+import com.bluegent.base.ObjectManager;
 import com.bluegent.utils.GameCfg;
+import com.bluegent.utils.LogicHelper;
 
 public class PhysicsWorker implements Runnable{
 	
-	private ArrayList<GameObject> objects;
+	private ObjectManager objectManager;
 	private boolean work;
 	private long lastTick;
 	
-	public PhysicsWorker(ArrayList<GameObject> obj)
+	public PhysicsWorker(ObjectManager om)
 	{
-		objects = obj;
+		objectManager = om;
 		work = true;
 		lastTick = System.currentTimeMillis();
 	}
@@ -36,14 +34,8 @@ public class PhysicsWorker implements Runnable{
 				time = now-lastTick;
 				lastTick = now;
 				
-				for(int i=0;i<objects.size();++i)
-				{
-					objects.get(i).tick(time);
-				}	
-				
-				
-				
-				
+				objectManager.update(LogicHelper.getTimeModifier(time));
+					
 				Thread.sleep(GameCfg.TickMS);
 			}
 		}

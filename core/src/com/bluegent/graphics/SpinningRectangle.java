@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
 import com.bluegent.interfaces.DrawableShape;
-import com.bluegent.utils.LogicHelper;
 import com.bluegent.utils.RenderHelper;
 
 public class SpinningRectangle extends GameObject implements DrawableShape{
@@ -24,7 +23,7 @@ public class SpinningRectangle extends GameObject implements DrawableShape{
 	
 	public synchronized void updateAngle(float deltaT)
 	{
-		m_angle += 360.0f * LogicHelper.getTimeModifier(deltaT);
+		m_angle -= 360.0f * deltaT;
 	}
 	
 	@Override

@@ -72,4 +72,11 @@ public class MyVector {
 		
 		return result;
 	}
+	
+	
+	public void add(MyVector other)
+	{
+		magnitude = Math.sqrt(Math.pow(x+other.x, 2)+Math.pow(y+other.y, 2));
+		angleInRad = Math.atan2(y+other.y,x+other.x);
+	}
 }
