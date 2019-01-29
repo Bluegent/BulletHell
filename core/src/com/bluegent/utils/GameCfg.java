@@ -1,4 +1,4 @@
-package com.bluegent.hell;
+package com.bluegent.utils;
 
 import com.badlogic.gdx.graphics.Color;
 

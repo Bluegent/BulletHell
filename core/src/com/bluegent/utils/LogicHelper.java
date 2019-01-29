@@ -1,4 +1,4 @@
-package com.bluegent.hell;
+package com.bluegent.utils;
 
 public class LogicHelper {
 

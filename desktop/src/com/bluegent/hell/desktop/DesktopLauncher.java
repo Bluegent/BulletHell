@@ -2,8 +2,8 @@ package com.bluegent.hell.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.bluegent.hell.GameCfg;
 import com.bluegent.hell.MainGame;
+import com.bluegent.utils.GameCfg;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

@@ -2,6 +2,9 @@ package com.bluegent.hell;
 
 import java.util.ArrayList;
 
+import com.bluegent.base.GameObject;
+import com.bluegent.utils.GameCfg;
+
 public class PhysicsWorker implements Runnable{
 	
 	private ArrayList<GameObject> objects;
