@@ -37,23 +37,28 @@ public class MainGame extends BaseGame {
 		rh = new RenderHelper(shapeRenderer);
 		Gdx.input.setInputProcessor(this);
 	}
+	
+
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		
-		batch.end();
+	public void drawSprites() {	
+	}
+
+	@Override
+	public void drawShapes() {
 		rect.draw(rh);	
-		
 	}
 	
 	@Override
 	public void dispose () {
+		worker.stop();
+		try {
+			physicsThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		batch.dispose();
 		shapeRenderer.dispose();
 	}
-	
 
 }

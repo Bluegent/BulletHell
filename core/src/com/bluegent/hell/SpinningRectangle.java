@@ -33,8 +33,8 @@ public class SpinningRectangle extends GameObject implements DrawableShape{
 		updateAngle(deltaT);
 	}
 	
-	public void draw(RenderHelper rh)
+	public synchronized void draw(RenderHelper rh)
 	{
-		rh.drawRectangle(m_position, m_radius, m_angle, m_color);;
+		rh.drawRectangle(m_position, m_radius, m_angle, m_color);
 	}
 }

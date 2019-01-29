@@ -10,6 +10,7 @@ public class PhysicsWorker implements Runnable{
 	private ArrayList<GameObject> objects;
 	private boolean work;
 	private long lastTick;
+	
 	public PhysicsWorker(ArrayList<GameObject> obj)
 	{
 		objects = obj;
