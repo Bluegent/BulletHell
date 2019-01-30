@@ -22,6 +22,7 @@ public class MainGame extends BaseGame {
 	@Override
 	public void create () {
 		
+		
 		Controls.initKeys();
 		batch = new SpriteBatch();
 		
@@ -38,6 +39,7 @@ public class MainGame extends BaseGame {
 		Gdx.input.setInputProcessor(this);
 		
 		font =  new BitmapFont(Gdx.files.internal("data/default.fnt"),Gdx.files.internal("data/default.png"),false);
+		
 	}
 	
 

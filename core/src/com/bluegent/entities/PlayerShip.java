@@ -6,12 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
 import com.bluegent.base.MyVector;
 import com.bluegent.graphics.SpinningRectangle;
+import com.bluegent.graphics.Trail;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.RenderHelper;
 
 public class PlayerShip extends GameObject implements DrawableShape{
 
 	private SpinningRectangle graphic;
+	private Trail trail;
 	private MyVector velocity;
 	
 	private MyVector[] moves;
@@ -19,6 +21,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public PlayerShip(Vector2 pos) {
 		super(pos);
 		graphic = new SpinningRectangle(30, Color.WHITE, pos);
+		trail = new Trail(pos,10,20,Color.WHITE);
 		velocity = new MyVector(0,0);
 		moves = new MyVector[4];
 		moves[0] = new MyVector(100,Math.PI/2); //up
@@ -29,18 +32,20 @@ public class PlayerShip extends GameObject implements DrawableShape{
 
 	@Override
 	public void tick(float deltaT) {
-		graphic.tick(deltaT);
 		
 		
 		m_position.x += (float) velocity.getX();
 		m_position.y += (float) velocity.getY();
-		
-		velocity.setMagnitude(velocity.getMagnitude() * 0.9 * deltaT);
+		graphic.tick(deltaT);
+		trail.tick(deltaT);
+			
+		velocity.setMagnitude(velocity.getMagnitude() * 0.92);
 	}
 
 	@Override
 	public void draw(RenderHelper rh) {		
 		graphic.draw(rh);
+		trail.draw(rh);
 	}
 	
 	

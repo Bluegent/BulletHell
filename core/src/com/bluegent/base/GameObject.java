@@ -9,5 +9,5 @@ public abstract class GameObject {
 	{
 		m_position = pos;
 	}
-	public abstract void tick(float deltaT);
+	public abstract  void tick(float deltaT);
 }
