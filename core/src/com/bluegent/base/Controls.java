@@ -3,7 +3,6 @@ package com.bluegent.base;
 import java.util.EnumMap;
 
 import com.badlogic.gdx.Input;
-import com.bluegent.utils.GameCfg;
 
 public class Controls {
 	public static enum Key
@@ -13,10 +12,17 @@ public class Controls {
 		MoveLeft,
 		MoveRight,
 		Shoot,
+		Bomb,
 		Pause
 	}
 	public static EnumMap<Key,Integer> keys;
 	public static EnumMap<Key,Boolean> keyDown;
+	private static KeyActionManager manager;
+	
+	public static void setKeyManager(KeyActionManager man)
+	{
+		manager =  man;
+	}
 	
 	public static void setKey(Key key, int keycode)
 	{
@@ -35,6 +41,7 @@ public class Controls {
 		setKey(Key.MoveRight, Input.Keys.D);
 		setKey(Key.Pause, Input.Keys.ESCAPE);
 		setKey(Key.Shoot, Input.Keys.J);
+		setKey(Key.Bomb, Input.Keys.K);
 		
 	}
 	public static synchronized boolean isKeyPressed(Key key)
@@ -64,12 +71,20 @@ public class Controls {
 		retVal |= testAndSetKey(keyCode,Key.MoveUp,keyDown);
 		retVal |= testAndSetKey(keyCode,Key.MoveDown,keyDown);
 		retVal |= testAndSetKey(keyCode,Key.MoveLeft,keyDown);
-		retVal |= testAndSetKey(keyCode,Key.Shoot,keyDown);
+		//retVal |= testAndSetKey(keyCode,Key.Shoot,keyDown);
+		
 		
 		
 		//normal keys
 		if(keyCode == keys.get(Key.Pause) && !keyDown) {
-			GameCfg.Running = ! GameCfg.Running;
+			if(manager !=null)
+				manager.togglePause();
+			retVal = true;
+		}
+		
+		if(keyCode == keys.get(Key.Bomb) && !keyDown) {
+			if(manager !=null)
+				manager.doBomb();
 			retVal = true;
 		}
 		

@@ -12,6 +12,8 @@ public class ObjectManager {
 
 	private ArrayList<GameObject> objects;
 	private ArrayList<DrawableShape> drawableS;
+	@SuppressWarnings("unused")
+	private KeyActionManager keyManager;
 	private PlayerShip ship;
 	
 	public ObjectManager()
@@ -19,6 +21,9 @@ public class ObjectManager {
 		objects = new ArrayList<GameObject>();
 		ship = new PlayerShip(new Vector2(GameCfg.Width/2, GameCfg.Height/2));
 		drawableS = new ArrayList<DrawableShape>();
+		PlayerManager manager = new PlayerManager(ship);
+		keyManager = new KeyActionManager(manager);
+		Controls.setKeyManager(keyManager);
 		drawableS.add(ship);
 		objects.add(ship);
 	}
