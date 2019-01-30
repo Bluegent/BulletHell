@@ -3,6 +3,7 @@ package com.bluegent.base;
 import java.util.EnumMap;
 
 import com.badlogic.gdx.Input;
+import com.bluegent.utils.GameCfg;
 
 public class Controls {
 	public static enum Key
@@ -11,7 +12,8 @@ public class Controls {
 		MoveDown,
 		MoveLeft,
 		MoveRight,
-		Shoot
+		Shoot,
+		Pause
 	}
 	public static EnumMap<Key,Integer> keys;
 	public static EnumMap<Key,Boolean> keyDown;
@@ -31,6 +33,8 @@ public class Controls {
 		setKey(Key.MoveLeft, Input.Keys.A);
 		setKey(Key.MoveDown, Input.Keys.S);
 		setKey(Key.MoveRight, Input.Keys.D);
+		setKey(Key.Pause, Input.Keys.ESCAPE);
+		setKey(Key.Shoot, Input.Keys.J);
 		
 	}
 	public static synchronized boolean isKeyPressed(Key key)
@@ -50,13 +54,26 @@ public class Controls {
 		return false;
 	}
 	
-	public static boolean setKey(int keyCode, boolean value)
+	
+	public static boolean setKey(int keyCode, boolean keyDown)
 	{		
 		boolean retVal = false;
-		retVal |= testAndSetKey(keyCode,Key.MoveRight,value);
-		retVal |= testAndSetKey(keyCode,Key.MoveUp,value);
-		retVal |= testAndSetKey(keyCode,Key.MoveDown,value);
-		retVal |= testAndSetKey(keyCode,Key.MoveLeft,value);
+		
+		//keyDowns
+		retVal |= testAndSetKey(keyCode,Key.MoveRight,keyDown);
+		retVal |= testAndSetKey(keyCode,Key.MoveUp,keyDown);
+		retVal |= testAndSetKey(keyCode,Key.MoveDown,keyDown);
+		retVal |= testAndSetKey(keyCode,Key.MoveLeft,keyDown);
+		retVal |= testAndSetKey(keyCode,Key.Shoot,keyDown);
+		
+		
+		//normal keys
+		if(keyCode == keys.get(Key.Pause) && !keyDown) {
+			GameCfg.Running = ! GameCfg.Running;
+			retVal = true;
+		}
+		
+		
 		return retVal;
 	}
 }

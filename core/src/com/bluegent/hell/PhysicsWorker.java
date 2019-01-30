@@ -28,13 +28,15 @@ public class PhysicsWorker implements Runnable{
 		long now;
 		float time;
 		try {
+			
 			while(work)
-			{
+			{		
 				now = System.currentTimeMillis();
 				time = now-lastTick;
 				lastTick = now;
 				
-				objectManager.update(LogicHelper.getTimeModifier(time));
+				if(GameCfg.Running)
+					objectManager.update(LogicHelper.getTimeModifier(time));
 					
 				Thread.sleep(GameCfg.TickMS);
 			}
