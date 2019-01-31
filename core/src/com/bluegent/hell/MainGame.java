@@ -3,6 +3,8 @@ package com.bluegent.hell;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bluegent.base.BaseGame;
 import com.bluegent.base.Controls;
@@ -37,8 +39,11 @@ public class MainGame extends BaseGame {
 
 		rh = new RenderHelper(shapeRenderer);
 		Gdx.input.setInputProcessor(this);
-		
-		font =  new BitmapFont(Gdx.files.internal("data/default.fnt"),Gdx.files.internal("data/default.png"),false);
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("data/arial.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 10;
+		font =  generator.generateFont(parameter);
+		generator.dispose();
 		
 	}
 	
@@ -68,6 +73,7 @@ public class MainGame extends BaseGame {
 		}
 		batch.dispose();
 		shapeRenderer.dispose();
+		font.dispose();
 	}
 	
 	@Override
