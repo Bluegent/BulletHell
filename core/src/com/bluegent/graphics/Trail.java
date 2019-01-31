@@ -9,15 +9,16 @@ import com.bluegent.utils.RenderHelper;
 
 public class Trail extends GameObject implements DrawableShape{
 
-	private Queue<Vector2> positions;
+	protected Queue<Vector2> positions;
 	private int trailSize;
-	private int trailCount;
-	private Color baseColor;
+	protected int trailCount;
+	protected Color baseColor;
+	
 	
 	public Trail(Vector2 pos, int size,int count, Color color) {
 		super(pos);
 		trailSize = size;
-		trailCount = count;
+		trailCount = count==0?1:count;
 		baseColor = color;
 		positions = new Queue<Vector2>();
 		for(int i=0;i<trailCount;++i )

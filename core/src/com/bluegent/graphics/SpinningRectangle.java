@@ -23,7 +23,7 @@ public class SpinningRectangle extends GameObject implements DrawableShape{
 	
 	public synchronized void updateAngle(float deltaT)
 	{
-		m_angle -= 360.0f * deltaT;
+		m_angle -= 360.0f  * deltaT;
 	}
 	
 	@Override
