@@ -53,15 +53,19 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		velocity.setMagnitude(decel);
 	}
 
-	@Override
-	public void draw(RenderHelper rh) {		
-		graphic.draw(rh);
-		trail.draw(rh);
+	@SuppressWarnings("unused")
+	private void drawVelocity(RenderHelper rh)
+	{
 		Vector2 forceV =  new Vector2((float)velocity.getX()/GameCfg.TickMS*100.0f,(float)velocity.getY()/GameCfg.TickMS*100.0f);
 		forceV.add(m_position);
 		rh.drawLine(m_position, forceV , Color.RED, 2);
 	}
-	
+	@Override
+	public void draw(RenderHelper rh) {		
+		graphic.draw(rh);
+		trail.draw(rh);
+		
+	}
 	
 	public void moveUp(float deltaT)
 	{
