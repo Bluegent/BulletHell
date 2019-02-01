@@ -72,4 +72,13 @@ public class RenderHelper {
 		shapeRenderer.rect(pos.x-radius, pos.y -radius, radius,  radius, size, size , 1.0f, 1.0f, angle);
 		shapeRenderer.end();
 	}
+	
+	public void drawFillRectangle(Vector2 pos, float radius, float angle, Color color)
+	{
+		float size = radius * 2;
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(color);
+		shapeRenderer.rect(pos.x-radius, pos.y -radius, radius,  radius, size, size , 1.0f, 1.0f, angle);
+		shapeRenderer.end();
+	}
 }

@@ -10,7 +10,9 @@ import com.bluegent.graphics.RectangleTrail;
 import com.bluegent.graphics.SpinningRectangle;
 import com.bluegent.graphics.Trail;
 import com.bluegent.interfaces.DrawableShape;
+import com.bluegent.utils.BulletCfg;
 import com.bluegent.utils.GameCfg;
+import com.bluegent.utils.LogicHelper;
 import com.bluegent.utils.RenderHelper;
 
 public class PlayerShip extends GameObject implements DrawableShape{
@@ -19,19 +21,23 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private Trail trail;
 	private MyVector velocity;
 	private static final double maxSpeed = 1300.0;
+	private long cooldownMS;
+	private boolean isShooting;
 	
 	private MyVector[] moves;
 	
-	public PlayerShip(Vector2 pos,ObjectManager om) {
+	public PlayerShip(Vector2 pos, ObjectManager om) {
 		super(pos,om);
 		graphic = new SpinningRectangle(30, Color.WHITE, pos,parent);
-		trail = new RectangleTrail(pos,5,(int)(20.0f*10.0f/GameCfg.TickMS),Color.WHITE,parent);
+		trail = new RectangleTrail(pos,5,LogicHelper.getTrailCount(20),Color.WHITE,parent);
 		velocity = new MyVector(0,0);
 		moves = new MyVector[4];
 		moves[0] = new MyVector(100,Math.PI/2); //up
 		moves[1] = new MyVector(100,0); //right
 		moves[2] = new MyVector(-100,Math.PI/2); //down
-		moves[3] = new MyVector(100,Math.PI); //left		
+		moves[3] = new MyVector(100,Math.PI); //left	
+		cooldownMS = 0;
+		isShooting = false;
 	}
 
 	private void clampVelocity(float deltaT)
@@ -52,6 +58,9 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		trail.tick(deltaT);
 		double decel =velocity.getMagnitude()-velocity.getMagnitude()*9*deltaT;
 		velocity.setMagnitude(decel);
+		cooldownMS-=LogicHelper.getMSFromModifier(deltaT);
+		if(cooldownMS<0)
+			cooldownMS = 0;
 	}
 
 	@SuppressWarnings("unused")
@@ -90,6 +99,30 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public void debugMove(float deltaT)
 	{
 		velocity.add(new MyVector(10000000,Math.PI/2));
+	}
+	
+	public void shootRelease()
+	{
+		isShooting = false;
+	}
+	
+	public void shoot(float deltaT)
+	{
+		if(cooldownMS!=0)
+			return;
+		for(int i=0;i<3;++i)
+			shootBullet(deltaT);
+		cooldownMS = BulletCfg.shootCDMs;
+		isShooting = true;
+	}
+	
+	public void shootBullet(float deltaT)
+	{
+		
+		PlayerBullet bullet = new PlayerBullet(m_position,parent,LogicHelper.getConeAngle(),2000);
+		parent.addDrawable(bullet);
+		parent.addObject(bullet);
+		
 	}
 	
 	public void bomb()

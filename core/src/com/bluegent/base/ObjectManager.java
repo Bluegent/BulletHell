@@ -38,6 +38,14 @@ public class ObjectManager {
 			ship.moveLeft(deltaT);
 		if(Controls.isKeyPressed(Controls.Key.MoveRight))
 			ship.moveRight(deltaT);
+		if(Controls.isKeyPressed(Controls.Key.Shoot))
+		{
+			ship.shoot(deltaT);
+		}
+		else
+		{
+			ship.shootRelease();
+		}
 	}
 	
 	public synchronized void drawSprites(SpriteBatch batch)
@@ -59,4 +67,27 @@ public class ObjectManager {
 		
 		
 	}
+	
+	public synchronized void removeDrawable(DrawableShape shape)
+	{
+		if(drawableS.contains(shape))
+			drawableS.remove(shape);
+	}
+	public synchronized void removeObject(GameObject obj)
+	{
+		if(objects.contains(obj))
+			objects.remove(obj);
+	}
+	
+	
+	public synchronized void addDrawable(DrawableShape shape)
+	{
+		drawableS.add(shape);
+	}
+	
+	public synchronized void addObject(GameObject obj)
+	{
+		objects.add(obj);
+	}
+	
 }

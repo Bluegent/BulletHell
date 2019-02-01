@@ -71,7 +71,7 @@ public class Controls {
 		retVal |= testAndSetKey(keyCode,Key.MoveUp,keyDown);
 		retVal |= testAndSetKey(keyCode,Key.MoveDown,keyDown);
 		retVal |= testAndSetKey(keyCode,Key.MoveLeft,keyDown);
-		//retVal |= testAndSetKey(keyCode,Key.Shoot,keyDown);
+		retVal |= testAndSetKey(keyCode,Key.Shoot,keyDown);
 		
 		
 		
