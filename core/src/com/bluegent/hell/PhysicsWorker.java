@@ -41,6 +41,7 @@ public class PhysicsWorker implements Runnable{
 	@Override
 	public void run() {
 		long now;
+		long difference = 0;
 		float time;
 		try {
 			
@@ -52,8 +53,13 @@ public class PhysicsWorker implements Runnable{
 				lastTick = now;
 				
 				if(GameCfg.Running)
+				{
+					long beforeUpdate = System.currentTimeMillis();
 					objectManager.update(time);
-				Thread.sleep(GameCfg.TickMS);
+					long after = System.currentTimeMillis();
+					difference = beforeUpdate-after;
+				}
+				Thread.sleep(GameCfg.TickMS-difference);
 			}
 		}
 		catch (InterruptedException e) {
