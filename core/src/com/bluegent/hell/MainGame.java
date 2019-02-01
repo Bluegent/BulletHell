@@ -10,7 +10,6 @@ import com.bluegent.base.BaseGame;
 import com.bluegent.base.Controls;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.utils.GameCfg;
-import com.bluegent.utils.RateCalculator;
 import com.bluegent.utils.RenderHelper;
 
 public class MainGame extends BaseGame {
@@ -25,7 +24,6 @@ public class MainGame extends BaseGame {
 	
 	@Override
 	public void create () {
-		
 		
 		Controls.initKeys();
 		batch = new SpriteBatch();

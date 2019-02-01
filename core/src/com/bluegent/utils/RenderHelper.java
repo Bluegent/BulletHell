@@ -53,7 +53,7 @@ public class RenderHelper {
 	}
 	void circle(Vector2 position, float radius,Color border,float lineWidth) {
 		filledCircle(position,radius+lineWidth/2,border);
-		filledCircle(position,radius-lineWidth/2,GameCfg.BGColor);
+		filledCircle(position,radius-lineWidth/2,GraphicsCfg.BGColor);
 	}
 	public void circleWithBorder(Vector2 position, float radius,Color border, Color fill,float lineWidth)
 	{

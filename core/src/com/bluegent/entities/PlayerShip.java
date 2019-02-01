@@ -22,6 +22,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private MyVector velocity;
 	private static final double maxSpeed = 1300.0;
 	private long cooldownMS;
+	@SuppressWarnings("unused")
 	private boolean isShooting;
 	private double accuracyCone;
 	private int dodgeMod;

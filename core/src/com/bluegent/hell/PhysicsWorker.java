@@ -2,7 +2,6 @@ package com.bluegent.hell;
 
 import com.bluegent.base.ObjectManager;
 import com.bluegent.utils.GameCfg;
-import com.bluegent.utils.LogicHelper;
 import com.bluegent.utils.RateCalculator;
 
 public class PhysicsWorker implements Runnable{
@@ -54,11 +53,11 @@ public class PhysicsWorker implements Runnable{
 				
 				if(GameCfg.Running)
 				{
-					long beforeUpdate = System.currentTimeMillis();
 					objectManager.update(time);
-					long after = System.currentTimeMillis();
-					difference = beforeUpdate-after;
+					
 				}
+				long after = System.currentTimeMillis();
+				difference = now-after;
 				Thread.sleep(GameCfg.TickMS-difference);
 			}
 		}

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.interfaces.DrawableShape;
+import com.bluegent.utils.GraphicsCfg;
 import com.bluegent.utils.RenderHelper;
 
 public class Trail extends GameObject implements DrawableShape{
@@ -15,6 +16,7 @@ public class Trail extends GameObject implements DrawableShape{
 	protected int trailCount;
 	protected Color baseColor;
 	protected boolean trailFade;
+
 	
 	
 	public void setFade(boolean fade)
@@ -46,17 +48,30 @@ public class Trail extends GameObject implements DrawableShape{
 		{
 			if(!RenderHelper.isInViewPort(positions.get(i), trailSize))
 				continue;
-			if(trailFade)
+			switch(GraphicsCfg.lineTrails)
+			{
+			case Gradient:
 			{
 				float color  = ((float)i/(float)trailCount);
 				use.r = color;
 				use.b = color;
 				use.g = color;
 				rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
+				break;
 			}
-			else
+			case Simple:
 			{
 				rh.drawLine(positions.get(i+1), positions.get(i), baseColor, trailSize*((float)i/(float)trailCount));
+				break;
+			}
+			case Alpha: 
+			{
+				use.a = ((float)i/(float)trailCount);
+				rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
+				break;
+			}
+			default:
+				break;
 			}
 		}
 		
