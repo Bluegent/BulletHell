@@ -1,6 +1,8 @@
 package com.bluegent.utils;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -9,11 +11,19 @@ import com.bluegent.base.MyVector;
 public class RenderHelper {
 	private ShapeRenderer shapeRenderer;
 	
-	public RenderHelper(ShapeRenderer sr)
+	private SpriteBatch batch;
+	
+	public RenderHelper(ShapeRenderer sr, SpriteBatch sb)
 	{
 		shapeRenderer = sr;
+		batch = sb;
 	}
 	
+	
+	public void drawText(BitmapFont font, float x, float y, String str)
+	{
+		font.draw(batch, str, x, y);
+	}
 	
 	public static boolean isInViewPort(Vector2 position, float bounding)
 	{

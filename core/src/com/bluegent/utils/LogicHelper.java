@@ -15,7 +15,7 @@ public class LogicHelper {
 	
 	public static int getTrailCount(int perSecond)
 	{
-		return (int)((float)perSecond*10.0f/GameCfg.TickMS);
+		return (int)(Math.ceil((float)perSecond*10.0f/GameCfg.TickMS))+1;
 	}
 	
 	public static double getConeAngle(double cone)

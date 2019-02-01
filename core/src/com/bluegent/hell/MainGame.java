@@ -10,6 +10,7 @@ import com.bluegent.base.BaseGame;
 import com.bluegent.base.Controls;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.utils.GameCfg;
+import com.bluegent.utils.RateCalculator;
 import com.bluegent.utils.RenderHelper;
 
 public class MainGame extends BaseGame {
@@ -20,6 +21,7 @@ public class MainGame extends BaseGame {
 	private PhysicsWorker worker;
 	private Thread physicsThread;
 	private BitmapFont font;
+
 	
 	@Override
 	public void create () {
@@ -37,13 +39,14 @@ public class MainGame extends BaseGame {
 		physicsThread = new Thread(worker);
 		physicsThread.start();
 
-		rh = new RenderHelper(shapeRenderer);
+		rh = new RenderHelper(shapeRenderer,batch);
 		Gdx.input.setInputProcessor(this);
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("data/arial.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 10;
+		parameter.size = 15;
 		font =  generator.generateFont(parameter);
 		generator.dispose();
+		
 		
 	}
 	
@@ -53,8 +56,8 @@ public class MainGame extends BaseGame {
 	public void drawSprites() {	
 		batch.begin();
 		objMan.drawSprites(batch);
-		String controls = "U:"+Controls.isKeyPressed(Controls.Key.MoveUp) +"\nD:"+Controls.isKeyPressed(Controls.Key.MoveDown)+"\nL:"+Controls.isKeyPressed(Controls.Key.MoveLeft)+"\nR:"+Controls.isKeyPressed(Controls.Key.MoveRight);
-		font.draw(batch, controls,0,GameCfg.Height);
+		rh.drawText(font, 5, GameCfg.Height - 17, "FPS:"+fps.avgToString()+"/"+GameCfg.FPS);
+		rh.drawText(font, 5, GameCfg.Height - 37, "TPS:"+worker.getTickRate()+"/"+(1000/GameCfg.TickMS));
 		batch.end();
 	}
 

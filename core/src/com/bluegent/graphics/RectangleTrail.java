@@ -43,7 +43,7 @@ public class RectangleTrail extends Trail{
 	@Override
 	public synchronized void tick(float deltaT) {
 		super.tick(deltaT);
-		angle -= 360.0f  * deltaT;
+		angle -= 0.360f  * deltaT;
 	}
 
 }

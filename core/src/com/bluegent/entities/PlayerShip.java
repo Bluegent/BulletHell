@@ -24,11 +24,10 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private long cooldownMS;
 	private boolean isShooting;
 	private double accuracyCone;
+	private int dodgeMod;
 	
 	private static final Color coneColor = new Color(1,1,1,0.5f);
 	private static final double coneCutoff = 0;
-	
-	private MyVector[] moves;
 	
 	public PlayerShip(Vector2 pos, ObjectManager om) {
 		super(pos,om);
@@ -36,14 +35,10 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		trail = new RectangleTrail(pos,15,LogicHelper.getTrailCount(20),Color.WHITE,parent);
 		trail.setFade(true);
 		velocity = new MyVector(0,0);
-		moves = new MyVector[4];
-		moves[0] = new MyVector(100,Math.PI/2); //up
-		moves[1] = new MyVector(100,0); //right
-		moves[2] = new MyVector(-100,Math.PI/2); //down
-		moves[3] = new MyVector(100,Math.PI); //left	
 		cooldownMS = 0;
 		isShooting = false;
 		accuracyCone = 0;
+		dodgeMod = 1;
 	}
 
 	private void clampVelocity(float deltaT)
@@ -58,13 +53,13 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public synchronized void tick(float deltaT) {
 
 		clampVelocity(deltaT);
-		m_position.x += (float) velocity.getX();
-		m_position.y += (float) velocity.getY();
+		m_position.x += (float) velocity.getX() * deltaT;
+		m_position.y += (float) velocity.getY() * deltaT;
 		graphic.tick(deltaT);
 		trail.tick(deltaT);
-		double decel =velocity.getMagnitude()-velocity.getMagnitude()*9*deltaT;
+		double decel = velocity.getMagnitude()-velocity.getMagnitude()*0.009*deltaT;
 		velocity.setMagnitude(decel);
-		cooldownMS-=LogicHelper.getMSFromModifier(deltaT);
+		cooldownMS-=deltaT;
 		if(cooldownMS<0)
 			cooldownMS = 0;
 		
@@ -105,26 +100,29 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void moveUp(float deltaT)
 	{
-		velocity.add(new MyVector(100*deltaT,Math.PI/2));
+		velocity.add(new MyVector(0.01*deltaT,Math.PI/2));
 	}
 	
 	public void moveRight(float deltaT)
 	{
-		velocity.add(new MyVector(100*deltaT,0));
+		velocity.add(new MyVector(0.01*deltaT,0));
+		dodgeMod = -1;
 	}	
 	public void moveDown(float deltaT)
 	{
-		velocity.add(new MyVector(-100*deltaT,Math.PI/2));
+		velocity.add(new MyVector(-0.01*deltaT,Math.PI/2));
+		
 	}
 	
 	public void moveLeft(float deltaT)
 	{
-		velocity.add(new MyVector(100*deltaT,Math.PI));
+		velocity.add(new MyVector(0.01*deltaT,Math.PI));
+		dodgeMod = 1;
 	}
 	
 	public void debugMove(float deltaT)
 	{
-		velocity.add(new MyVector(10000000,Math.PI));
+		velocity.add(new MyVector(dodgeMod*1,Math.PI));
 	}
 	
 	public void shootRelease()
@@ -145,7 +143,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public void shootBullet(float deltaT)
 	{
 		
-		PlayerBullet bullet = new PlayerBullet(m_position,parent,LogicHelper.getConeAngle(accuracyCone),2000);
+		PlayerBullet bullet = new PlayerBullet(m_position,parent,LogicHelper.getConeAngle(accuracyCone),2);
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
 		accuracyCone+=0.5;

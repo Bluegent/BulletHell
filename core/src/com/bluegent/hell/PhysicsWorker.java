@@ -3,18 +3,33 @@ package com.bluegent.hell;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.utils.GameCfg;
 import com.bluegent.utils.LogicHelper;
+import com.bluegent.utils.RateCalculator;
 
 public class PhysicsWorker implements Runnable{
 	
 	private ObjectManager objectManager;
 	private boolean work;
 	private long lastTick;
+	private RateCalculator tickRate;
+	
+	
+	public synchronized String getTickRate()
+	{
+		return tickRate.avgToString();
+	}
+	
+	
+	private synchronized void pushRate(long rate)
+	{
+		tickRate.push(rate);
+	}
 	
 	public PhysicsWorker(ObjectManager om)
 	{
 		objectManager = om;
 		work = true;
 		lastTick = System.currentTimeMillis();
+		tickRate = new RateCalculator();
 	}
 	
 	public void stop()
@@ -33,11 +48,11 @@ public class PhysicsWorker implements Runnable{
 			{		
 				now = System.currentTimeMillis();
 				time = now-lastTick;
+				pushRate((long)time);
 				lastTick = now;
 				
 				if(GameCfg.Running)
-					objectManager.update(LogicHelper.getTimeModifier(time));
-					
+					objectManager.update(time);
 				Thread.sleep(GameCfg.TickMS);
 			}
 		}

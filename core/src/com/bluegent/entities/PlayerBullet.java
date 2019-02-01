@@ -45,8 +45,9 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		}
 		this.m_position.x += speed * xComp * deltaT;
 		this.m_position.y += speed * yComp * deltaT;
+		
 		trail.tick(deltaT);
-		lifeTime -= LogicHelper.getMSFromModifier(deltaT);		
+		lifeTime -= deltaT;		
 		
 	}
 
