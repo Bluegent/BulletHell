@@ -64,8 +64,9 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		if(cooldownMS<0)
 			cooldownMS = 0;
 		
-		accuracyCone*=0.995;
-		if(accuracyCone <=0.01)
+		if(accuracyCone!=0 && !isShooting)
+			accuracyCone -= BulletCfg.accuracyGain * deltaT;
+		if(accuracyCone <=0.0001)
 			accuracyCone=0;
 		
 		
@@ -83,10 +84,10 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	{
 		if(accuracyCone <= coneCutoff)
 			return;
-		MyVector left =  new MyVector(70,(accuracyCone)*LogicHelper.radian+Math.PI/2);
-		MyVector right =  new MyVector(70,(-accuracyCone)*LogicHelper.radian+Math.PI/2);
+		MyVector left =  new MyVector(700,(accuracyCone)*LogicHelper.radian+Math.PI/2);
+		MyVector right =  new MyVector(700,(-accuracyCone)*LogicHelper.radian+Math.PI/2);
 		
-		coneColor.a = (float) ((accuracyCone-coneCutoff)/(BulletCfg.accuracyCone-coneCutoff));
+		coneColor.a = (float) ((accuracyCone-coneCutoff)/(BulletCfg.accuracyCone-coneCutoff))*0.15f;
 		rh.drawForceLine(left, m_position, coneColor, 1);
 		rh.drawForceLine(right, m_position, coneColor, 1);
 	}
