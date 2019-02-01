@@ -18,8 +18,8 @@ public class LogicHelper {
 		return (int)((float)perSecond*10.0f/GameCfg.TickMS);
 	}
 	
-	public static double getConeAngle()
+	public static double getConeAngle(double cone)
 	{
-		return (BulletCfg.accuracyCone-Math.random()*BulletCfg.accuracyCone*2) * radian + Math.PI/2;
+		return (cone-Math.random()*cone*2) * radian + Math.PI/2;
 	}
 }

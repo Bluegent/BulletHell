@@ -23,13 +23,14 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private static final double maxSpeed = 1300.0;
 	private long cooldownMS;
 	private boolean isShooting;
+	private double accuracyCone;
 	
 	private MyVector[] moves;
 	
 	public PlayerShip(Vector2 pos, ObjectManager om) {
 		super(pos,om);
 		graphic = new SpinningRectangle(30, Color.WHITE, pos,parent);
-		trail = new RectangleTrail(pos,5,LogicHelper.getTrailCount(20),Color.WHITE,parent);
+		trail = new RectangleTrail(pos,15,LogicHelper.getTrailCount(20),Color.WHITE,parent);
 		velocity = new MyVector(0,0);
 		moves = new MyVector[4];
 		moves[0] = new MyVector(100,Math.PI/2); //up
@@ -38,6 +39,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		moves[3] = new MyVector(100,Math.PI); //left	
 		cooldownMS = 0;
 		isShooting = false;
+		accuracyCone = 0;
 	}
 
 	private void clampVelocity(float deltaT)
@@ -49,7 +51,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		}
 	}
 	@Override
-	public void tick(float deltaT) {
+	public synchronized void tick(float deltaT) {
 
 		clampVelocity(deltaT);
 		m_position.x += (float) velocity.getX();
@@ -61,6 +63,19 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		cooldownMS-=LogicHelper.getMSFromModifier(deltaT);
 		if(cooldownMS<0)
 			cooldownMS = 0;
+		if(isShooting)
+		{
+			accuracyCone+=10*deltaT;
+			if(accuracyCone > BulletCfg.accuracyCone)
+				accuracyCone = BulletCfg.accuracyCone;
+		}
+		else
+		{
+			accuracyCone*=0.99;
+			if(accuracyCone <=0.01)
+				accuracyCone=0;
+		}
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -70,10 +85,22 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		forceV.add(m_position);
 		rh.drawLine(m_position, forceV , Color.RED, 2);
 	}
+	
+	private void drawFireCone(RenderHelper rh)
+	{
+		if(accuracyCone < 3)
+			return;
+		MyVector left =  new MyVector(100,(accuracyCone)*LogicHelper.radian+Math.PI/2);
+		MyVector right =  new MyVector(100,(-accuracyCone)*LogicHelper.radian+Math.PI/2);
+		rh.drawForceLine(left, m_position, Color.WHITE, 1);
+		rh.drawForceLine(right, m_position, Color.WHITE, 1);
+	}
+	
 	@Override
-	public void draw(RenderHelper rh) {		
+	public synchronized void draw(RenderHelper rh) {		
 		graphic.draw(rh);
 		trail.draw(rh);
+		drawFireCone(rh);
 		
 	}
 	
@@ -98,7 +125,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void debugMove(float deltaT)
 	{
-		velocity.add(new MyVector(10000000,Math.PI/2));
+		velocity.add(new MyVector(10000000,Math.PI));
 	}
 	
 	public void shootRelease()
@@ -119,7 +146,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public void shootBullet(float deltaT)
 	{
 		
-		PlayerBullet bullet = new PlayerBullet(m_position,parent,LogicHelper.getConeAngle(),2000);
+		PlayerBullet bullet = new PlayerBullet(m_position,parent,LogicHelper.getConeAngle(accuracyCone),2000);
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
 		

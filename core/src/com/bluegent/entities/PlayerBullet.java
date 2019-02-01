@@ -25,7 +25,7 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		super(new Vector2(pos), om);
 		updateAngle(angle);
 		this.speed = speed;
-		trail = new Trail(m_position,3,LogicHelper.getTrailCount(10),Color.WHITE,om);
+		trail = new Trail(m_position,5,LogicHelper.getTrailCount(5),Color.WHITE,om);
 		lifeTime = BulletCfg.bulletLifeTimeMS;
 	}
 

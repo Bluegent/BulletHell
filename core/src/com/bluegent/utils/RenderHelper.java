@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.bluegent.base.MyVector;
 
 public class RenderHelper {
 	private ShapeRenderer shapeRenderer;
@@ -80,5 +81,10 @@ public class RenderHelper {
 		shapeRenderer.setColor(color);
 		shapeRenderer.rect(pos.x-radius, pos.y -radius, radius,  radius, size, size , 1.0f, 1.0f, angle);
 		shapeRenderer.end();
+	}
+	
+	public void drawForceLine(MyVector force, Vector2 origin, Color color, float width)
+	{
+		drawLine(origin,new Vector2(origin.x+(float)force.getX(),origin.y+(float)force.getY()),color,width);
 	}
 }
