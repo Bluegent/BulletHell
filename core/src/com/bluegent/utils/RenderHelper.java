@@ -13,6 +13,21 @@ public class RenderHelper {
 	{
 		shapeRenderer = sr;
 	}
+	
+	
+	public static boolean isInViewPort(Vector2 position, float bounding)
+	{
+		if(position.x - bounding > GameCfg.Width*1.5)
+			return false;
+		if(position.x + bounding < GameCfg.Width * -0.5)
+			return false;
+		if(position.y - bounding > GameCfg.Height*1.5)
+			return false;
+		if(position.y + bounding < GameCfg.Height * -0.5)
+			return false;
+		return true;
+	}
+	
 	public void filledCircle(Vector2 position, float radius,Color fill) {
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(fill);

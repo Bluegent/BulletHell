@@ -14,7 +14,13 @@ public class Trail extends GameObject implements DrawableShape{
 	protected int trailSize;
 	protected int trailCount;
 	protected Color baseColor;
+	protected boolean trailFade;
 	
+	
+	public void setFade(boolean fade)
+	{
+		trailFade = fade;
+	}
 	
 	public Trail(Vector2 pos, int size,int count, Color color,ObjectManager om) {
 		super(pos,om);
@@ -22,6 +28,7 @@ public class Trail extends GameObject implements DrawableShape{
 		trailCount = count==0?1:count;
 		baseColor = color;
 		positions = new Queue<Vector2>();
+		trailFade = false;
 		for(int i=0;i<trailCount;++i )
 		{
 			positions.addLast(new Vector2());
@@ -32,11 +39,22 @@ public class Trail extends GameObject implements DrawableShape{
 
 	@Override
 	public synchronized void draw(RenderHelper rh) {	
+		
+		
 		Color use = new Color(baseColor);
 		for(int i=0;i<positions.size-1;++i)
 		{
-			use.a  = ((float)i/(float)trailCount);
-			rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
+			if(!RenderHelper.isInViewPort(positions.get(i), trailSize))
+				continue;
+			if(trailFade)
+			{
+				use.a  = ((float)i/(float)trailCount);
+				rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
+			}
+			else
+			{
+				rh.drawLine(positions.get(i+1), positions.get(i), baseColor, trailSize*((float)i/(float)trailCount));
+			}
 		}
 		
 	}

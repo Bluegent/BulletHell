@@ -52,6 +52,8 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 
 	@Override
 	public void draw(RenderHelper rh) {
+		if(!RenderHelper.isInViewPort(m_position,5))
+			return;
 		rh.drawFillRectangle(m_position, BulletCfg.bulletSize, (float) angleInRad, Color.WHITE);
 		trail.draw(rh);
 		

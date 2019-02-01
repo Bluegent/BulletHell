@@ -26,6 +26,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private double accuracyCone;
 	
 	private static final Color coneColor = new Color(1,1,1,0.5f);
+	private static final double coneCutoff = 0;
 	
 	private MyVector[] moves;
 	
@@ -33,6 +34,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		super(pos,om);
 		graphic = new SpinningRectangle(30, Color.WHITE, pos,parent);
 		trail = new RectangleTrail(pos,15,LogicHelper.getTrailCount(20),Color.WHITE,parent);
+		trail.setFade(true);
 		velocity = new MyVector(0,0);
 		moves = new MyVector[4];
 		moves[0] = new MyVector(100,Math.PI/2); //up
@@ -65,18 +67,11 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		cooldownMS-=LogicHelper.getMSFromModifier(deltaT);
 		if(cooldownMS<0)
 			cooldownMS = 0;
-		if(isShooting)
-		{
-			accuracyCone+=10*deltaT;
-			if(accuracyCone > BulletCfg.accuracyCone)
-				accuracyCone = BulletCfg.accuracyCone;
-		}
-		else
-		{
-			accuracyCone*=0.995;
-			if(accuracyCone <=0.01)
-				accuracyCone=0;
-		}
+		
+		accuracyCone*=0.995;
+		if(accuracyCone <=0.01)
+			accuracyCone=0;
+		
 		
 	}
 
@@ -90,12 +85,12 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	private void drawFireCone(RenderHelper rh)
 	{
-		if(accuracyCone < 10 || isShooting)
+		if(accuracyCone <= coneCutoff)
 			return;
 		MyVector left =  new MyVector(70,(accuracyCone)*LogicHelper.radian+Math.PI/2);
 		MyVector right =  new MyVector(70,(-accuracyCone)*LogicHelper.radian+Math.PI/2);
 		
-		coneColor.a = (float) ((accuracyCone-10)/(BulletCfg.accuracyCone-10));
+		coneColor.a = (float) ((accuracyCone-coneCutoff)/(BulletCfg.accuracyCone-coneCutoff));
 		rh.drawForceLine(left, m_position, coneColor, 1);
 		rh.drawForceLine(right, m_position, coneColor, 1);
 	}
@@ -141,7 +136,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	{
 		if(cooldownMS!=0)
 			return;
-		for(int i=0;i<3;++i)
+		for(int i=0;i<BulletCfg.bulletsPerShot;++i)
 			shootBullet(deltaT);
 		cooldownMS = BulletCfg.shootCDMs;
 		isShooting = true;
@@ -153,6 +148,9 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		PlayerBullet bullet = new PlayerBullet(m_position,parent,LogicHelper.getConeAngle(accuracyCone),2000);
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
+		accuracyCone+=0.5;
+		if(accuracyCone > BulletCfg.accuracyCone)
+			accuracyCone = BulletCfg.accuracyCone;
 		
 	}
 	

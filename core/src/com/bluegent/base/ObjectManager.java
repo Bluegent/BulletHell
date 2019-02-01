@@ -55,7 +55,9 @@ public class ObjectManager {
 	public synchronized void drawShapes(RenderHelper rh)
 	{
 		for(DrawableShape drawMe : drawableS)
+		{
 			drawMe.draw(rh);	
+		}
 	}
 	public synchronized void update(float deltaT)
 	{
