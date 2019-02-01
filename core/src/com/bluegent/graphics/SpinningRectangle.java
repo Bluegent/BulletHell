@@ -3,6 +3,7 @@ package com.bluegent.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
+import com.bluegent.base.ObjectManager;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.RenderHelper;
 
@@ -12,9 +13,9 @@ public class SpinningRectangle extends GameObject implements DrawableShape{
 	private Color m_color;
 	private float m_angle;
 	
-	public SpinningRectangle(int size, Color color, Vector2 pos)
+	public SpinningRectangle(int size, Color color, Vector2 pos,ObjectManager om)
 	{
-		super(pos);
+		super(pos,om);
 		m_size = size;
 		m_radius = m_size/2;
 		m_color = color;

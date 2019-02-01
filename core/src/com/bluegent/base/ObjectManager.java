@@ -19,7 +19,7 @@ public class ObjectManager {
 	public ObjectManager()
 	{
 		objects = new ArrayList<GameObject>();
-		ship = new PlayerShip(new Vector2(GameCfg.Width/2, GameCfg.Height/2));
+		ship = new PlayerShip(new Vector2(GameCfg.Width/2, GameCfg.Height/2),this);
 		drawableS = new ArrayList<DrawableShape>();
 		PlayerManager manager = new PlayerManager(ship);
 		keyManager = new KeyActionManager(manager);

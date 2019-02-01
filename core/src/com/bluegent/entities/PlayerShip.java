@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
 import com.bluegent.base.MyVector;
+import com.bluegent.base.ObjectManager;
 import com.bluegent.graphics.RectangleTrail;
 import com.bluegent.graphics.SpinningRectangle;
 import com.bluegent.graphics.Trail;
@@ -21,10 +22,10 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	private MyVector[] moves;
 	
-	public PlayerShip(Vector2 pos) {
-		super(pos);
-		graphic = new SpinningRectangle(30, Color.WHITE, pos);
-		trail = new RectangleTrail(pos,5,(int)(20.0f*10.0f/GameCfg.TickMS),Color.WHITE);
+	public PlayerShip(Vector2 pos,ObjectManager om) {
+		super(pos,om);
+		graphic = new SpinningRectangle(30, Color.WHITE, pos,parent);
+		trail = new RectangleTrail(pos,5,(int)(20.0f*10.0f/GameCfg.TickMS),Color.WHITE,parent);
 		velocity = new MyVector(0,0);
 		moves = new MyVector[4];
 		moves[0] = new MyVector(100,Math.PI/2); //up

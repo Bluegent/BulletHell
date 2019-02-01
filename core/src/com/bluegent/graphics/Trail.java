@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
+import com.bluegent.base.ObjectManager;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.RenderHelper;
 
@@ -15,8 +16,8 @@ public class Trail extends GameObject implements DrawableShape{
 	protected Color baseColor;
 	
 	
-	public Trail(Vector2 pos, int size,int count, Color color) {
-		super(pos);
+	public Trail(Vector2 pos, int size,int count, Color color,ObjectManager om) {
+		super(pos,om);
 		trailSize = size;
 		trailCount = count==0?1:count;
 		baseColor = color;
