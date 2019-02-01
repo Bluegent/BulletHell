@@ -10,6 +10,8 @@ public class RectangleTrail extends Trail{
 	private double angle;
 	private static final double tolerance = 3;
 	
+	
+	
 	public RectangleTrail(Vector2 pos, int size, int count, Color color,ObjectManager om) {
 		super(pos, size, count, color,om);
 		angle = 0;
@@ -30,9 +32,11 @@ public class RectangleTrail extends Trail{
 	{
 		if(isSame())
 			return;
+		Color use = new Color(baseColor);
 		for(int i=0;i<positions.size;++i)
 		{
-			rh.drawRectangle( positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, new Color(1,1,1,0.2f));
+			use.a  = ((float)i/(float)trailCount);
+			rh.drawRectangle( positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, use);
 		}
 	}
 	

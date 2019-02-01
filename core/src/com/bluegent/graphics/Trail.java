@@ -31,11 +31,12 @@ public class Trail extends GameObject implements DrawableShape{
 	}
 
 	@Override
-	public synchronized void draw(RenderHelper rh) {
-		
+	public synchronized void draw(RenderHelper rh) {	
+		Color use = new Color(baseColor);
 		for(int i=0;i<positions.size-1;++i)
 		{
-			rh.drawLine(positions.get(i+1), positions.get(i), new Color(1,1,1,0.2f), trailSize*((float)i/(float)trailCount));
+			use.a  = ((float)i/(float)trailCount);
+			rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
 		}
 		
 	}
