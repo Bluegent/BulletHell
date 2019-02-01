@@ -142,11 +142,13 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void shootBullet(float deltaT)
 	{
+		double angle = LogicHelper.getConeAngle(accuracyCone);
+		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,2);
 		
-		PlayerBullet bullet = new PlayerBullet(m_position,parent,LogicHelper.getConeAngle(accuracyCone),2);
+		velocity.add(new MyVector(0.02,Math.PI+angle));
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
-		accuracyCone+=0.5;
+		accuracyCone+=BulletCfg.accuracyLoss;
 		if(accuracyCone > BulletCfg.accuracyCone)
 			accuracyCone = BulletCfg.accuracyCone;
 		

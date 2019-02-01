@@ -58,6 +58,7 @@ public class MainGame extends BaseGame {
 		objMan.drawSprites(batch);
 		rh.drawText(font, 5, GameCfg.Height - 17, "FPS:"+fps.avgToString()+"/"+GameCfg.FPS);
 		rh.drawText(font, 5, GameCfg.Height - 37, "TPS:"+worker.getTickRate()+"/"+(1000/GameCfg.TickMS));
+		rh.drawText(font, 5, GameCfg.Height - 57, "Obj:"+objMan.getObjectCount());
 		batch.end();
 	}
 

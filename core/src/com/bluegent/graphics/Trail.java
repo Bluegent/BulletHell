@@ -48,7 +48,10 @@ public class Trail extends GameObject implements DrawableShape{
 				continue;
 			if(trailFade)
 			{
-				use.a  = ((float)i/(float)trailCount);
+				float color  = ((float)i/(float)trailCount);
+				use.r = color;
+				use.b = color;
+				use.g = color;
 				rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
 			}
 			else

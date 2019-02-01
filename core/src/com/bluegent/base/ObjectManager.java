@@ -10,11 +10,24 @@ import com.bluegent.utils.RenderHelper;
 
 public class ObjectManager {
 
+	public enum ObjectType
+	{
+		PlayerBullet,
+		Ship,
+		EnemyBullet,
+		EnemyPart
+	}
+	
 	private ArrayList<GameObject> objects;
 	private ArrayList<DrawableShape> drawableS;
 	@SuppressWarnings("unused")
 	private KeyActionManager keyManager;
 	private PlayerShip ship;
+	
+	public int getObjectCount()
+	{
+		return objects.size();
+	}
 	
 	public ObjectManager()
 	{
@@ -30,14 +43,7 @@ public class ObjectManager {
 	
 	public void pollControls(float deltaT)
 	{
-		if(Controls.isKeyPressed(Controls.Key.MoveUp))
-			ship.moveUp(deltaT);
-		if(Controls.isKeyPressed(Controls.Key.MoveDown))
-			ship.moveDown(deltaT);
-		if(Controls.isKeyPressed(Controls.Key.MoveLeft))
-			ship.moveLeft(deltaT);
-		if(Controls.isKeyPressed(Controls.Key.MoveRight))
-			ship.moveRight(deltaT);
+		
 		if(Controls.isKeyPressed(Controls.Key.Shoot))
 		{
 			ship.shoot(deltaT);
@@ -46,6 +52,29 @@ public class ObjectManager {
 		{
 			ship.shootRelease();
 		}
+		
+		if(Controls.isKeyPressed(Controls.Key.MoveUp))
+			ship.moveUp(deltaT);
+		if(Controls.isKeyPressed(Controls.Key.MoveDown))
+			ship.moveDown(deltaT);
+		if(Controls.isKeyPressed(Controls.Key.MoveLeft))
+			ship.moveLeft(deltaT);
+		if(Controls.isKeyPressed(Controls.Key.MoveRight))
+			ship.moveRight(deltaT);
+	}
+	
+	public ArrayList<GameObject> getObjectsOfInterest(ObjectType type)
+	{
+		switch(type)
+		{
+			case EnemyPart:
+			{
+				return objects;
+			}
+		default:
+			break;
+		}
+		return null;
 	}
 	
 	public synchronized void drawSprites(SpriteBatch batch)

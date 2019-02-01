@@ -26,6 +26,7 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		updateAngle(angle);
 		this.speed = speed;
 		trail = new Trail(m_position,5,LogicHelper.getTrailCount(15),Color.WHITE,om);
+		trail.setFade(true);
 		lifeTime = BulletCfg.bulletLifeTimeMS;
 	}
 
@@ -36,7 +37,7 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		
 	}
 	@Override
-	public void tick(float deltaT) {
+	public synchronized void tick(float deltaT) {
 		if(lifeTime<=0)
 		{
 			parent.removeDrawable(this);
@@ -46,13 +47,22 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		this.m_position.x += speed * xComp * deltaT;
 		this.m_position.y += speed * yComp * deltaT;
 		
+		
+		for(int i=0;i<100;++i)
+		{
+			if(RenderHelper.isInViewPort(m_position, 5))
+			{
+				parent.getObjectsOfInterest(ObjectManager.ObjectType.EnemyPart);
+			}
+		}
+		
 		trail.tick(deltaT);
 		lifeTime -= deltaT;		
 		
 	}
 
 	@Override
-	public void draw(RenderHelper rh) {
+	public synchronized void draw(RenderHelper rh) {
 		if(!RenderHelper.isInViewPort(m_position,5))
 			return;
 		rh.drawFillRectangle(m_position, BulletCfg.bulletSize, (float) angleInRad, Color.WHITE);
