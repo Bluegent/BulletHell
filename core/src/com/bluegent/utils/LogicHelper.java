@@ -5,6 +5,7 @@ import com.bluegent.config.GameCfg;
 public class LogicHelper {
 
 	public static final double radian = Math.PI/180.0f;
+	public static final double halfPI = Math.PI/2;
 	public static float getTimeModifier(float deltaT)
 	{
 		return deltaT/1000.0f;

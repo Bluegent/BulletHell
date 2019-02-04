@@ -114,8 +114,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	{
 		if(accuracyCone <= coneCutoff)
 			return;
-		MyVector left =  new MyVector(700,(accuracyCone)*LogicHelper.radian+Math.PI/2);
-		MyVector right =  new MyVector(700,(-accuracyCone)*LogicHelper.radian+Math.PI/2);
+		MyVector left =  new MyVector(700,(accuracyCone)*LogicHelper.radian+LogicHelper.halfPI);
+		MyVector right =  new MyVector(700,(-accuracyCone)*LogicHelper.radian+LogicHelper.halfPI);
 		
 		coneColor.a = (float) ((accuracyCone-coneCutoff)/(BulletCfg.accuracyCone-coneCutoff));
 		rh.drawForceLine(left, m_position, coneColor, 1);
@@ -131,23 +131,23 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void moveUp(float deltaT)
 	{
-		velocity.add(new MyVector(0.01*deltaT,Math.PI/2));
+		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
 	}
 	
 	public void moveRight(float deltaT)
 	{
-		velocity.add(new MyVector(0.01*deltaT,0));
+		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,0));
 		dodgeMod = -1;
 	}	
 	public void moveDown(float deltaT)
 	{
-		velocity.add(new MyVector(-0.01*deltaT,Math.PI/2));
+		velocity.add(new MyVector(-1*ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
 		
 	}
 	
 	public void moveLeft(float deltaT)
 	{
-		velocity.add(new MyVector(0.01*deltaT,Math.PI));
+		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,Math.PI));
 		dodgeMod = 1;
 	}
 	
@@ -170,9 +170,10 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		double angle = LogicHelper.getConeAngle(accuracyCone);
 		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,2);
 		
-		velocity.add(new MyVector(0.015,Math.PI+angle));
+		velocity.add(new MyVector(ShipCfg.shotRecoil,Math.PI+angle));
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
+		
 		accuracyCone+=BulletCfg.accuracyLoss;
 		if(accuracyCone > BulletCfg.accuracyCone)
 			accuracyCone = BulletCfg.accuracyCone;

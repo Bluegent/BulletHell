@@ -56,9 +56,9 @@ public class Trail extends GameObject implements DrawableShape{
 			case Gradient:
 			{
 				float color  = ((float)i/(float)trailCount);
-				use.r = color;
-				use.b = color;
-				use.g = color;
+				use.r = baseColor.r * color;
+				use.b = baseColor.g * color;
+				use.g = baseColor.b * color;
 				rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
 				break;
 			}
