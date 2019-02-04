@@ -21,7 +21,6 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private SpinningRectangle graphic;
 	private Trail trail;
 	private MyVector velocity;
-	private static final double maxSpeed = 1300.0;
 	private long cooldownMS;
 
 	private double accuracyCone;
@@ -50,7 +49,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 
 	private void clampVelocity(float deltaT)
 	{
-		double maxWithTime =  maxSpeed * deltaT;
+		double maxWithTime =  ShipCfg.maxSpeed * deltaT;
 		if(velocity.getMagnitude() >= maxWithTime)
 		{
 			velocity.setMagnitude(maxWithTime);
@@ -171,7 +170,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		double angle = LogicHelper.getConeAngle(accuracyCone);
 		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,2);
 		
-		velocity.add(new MyVector(0.02,Math.PI+angle));
+		velocity.add(new MyVector(0.015,Math.PI+angle));
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
 		accuracyCone+=BulletCfg.accuracyLoss;
@@ -186,6 +185,6 @@ public class PlayerShip extends GameObject implements DrawableShape{
 			return;
 		invulCD = ShipCfg.dodgeCooldown;
 		invulTimer = ShipCfg.dodgeInvulMS;
-		velocity.add(new MyVector(dodgeMod*1,Math.PI));
+		velocity.add(new MyVector(dodgeMod*1.5,Math.PI));
 	}
 }
