@@ -3,7 +3,7 @@ package com.bluegent.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.ObjectManager;
-import com.bluegent.utils.GraphicsCfg;
+import com.bluegent.config.GraphicsCfg;
 import com.bluegent.utils.RenderHelper;
 
 public class RectangleTrail extends Trail{
@@ -41,9 +41,9 @@ public class RectangleTrail extends Trail{
 			case Gradient:
 			{
 				float color  = ((float)i/(float)trailCount);
-				use.r = color;
-				use.b = color;
-				use.g = color;
+				use.r = baseColor.r * ((float)i/(float)trailCount);
+				use.b = baseColor.g * ((float)i/(float)trailCount);;
+				use.g = baseColor.b * ((float)i/(float)trailCount);;
 				rh.drawRectangle( positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, use);
 				break;
 			}

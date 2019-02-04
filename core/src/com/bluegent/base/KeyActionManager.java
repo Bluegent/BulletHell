@@ -1,6 +1,6 @@
 package com.bluegent.base;
 
-import com.bluegent.utils.GameCfg;
+import com.bluegent.config.GameCfg;
 
 public class KeyActionManager {
 

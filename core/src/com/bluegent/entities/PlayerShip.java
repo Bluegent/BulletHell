@@ -6,12 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
 import com.bluegent.base.MyVector;
 import com.bluegent.base.ObjectManager;
+import com.bluegent.config.BulletCfg;
+import com.bluegent.config.GameCfg;
+import com.bluegent.config.ShipCfg;
 import com.bluegent.graphics.RectangleTrail;
 import com.bluegent.graphics.SpinningRectangle;
 import com.bluegent.graphics.Trail;
 import com.bluegent.interfaces.DrawableShape;
-import com.bluegent.utils.BulletCfg;
-import com.bluegent.utils.GameCfg;
 import com.bluegent.utils.LogicHelper;
 import com.bluegent.utils.RenderHelper;
 
@@ -22,10 +23,12 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private MyVector velocity;
 	private static final double maxSpeed = 1300.0;
 	private long cooldownMS;
-	@SuppressWarnings("unused")
-	private boolean isShooting;
+
 	private double accuracyCone;
 	private int dodgeMod;
+	private boolean isInvulnerable;
+	private long invulTimer;
+	private long invulCD;
 	
 	private static final Color coneColor = new Color(1,1,1,0.5f);
 	private static final double coneCutoff = 0;
@@ -37,9 +40,12 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		trail.setFade(true);
 		velocity = new MyVector(0,0);
 		cooldownMS = 0;
-		isShooting = false;
 		accuracyCone = 0;
 		dodgeMod = 1;
+		
+		isInvulnerable = false;
+		invulTimer = 0;
+		invulCD = 0;
 	}
 
 	private void clampVelocity(float deltaT)
@@ -49,6 +55,33 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		{
 			velocity.setMagnitude(maxWithTime);
 		}
+	}
+	
+	/**
+	 * ONLY CALL ONCE
+	 * @param deltaT
+	 */
+	private void handleTimings(float deltaT) 
+	{
+		cooldownMS-=deltaT;
+		if(cooldownMS<0)
+			cooldownMS = 0;
+		
+		invulCD -=deltaT;
+		if(invulCD <0)
+			invulCD =0;
+		
+		
+		isInvulnerable = invulTimer>0;
+		
+		if(isInvulnerable)
+			trail.setColor(Color.CYAN);
+		else
+			trail.setColor(Color.WHITE);
+		
+		invulTimer-=deltaT;
+		if(invulTimer<0)
+			invulTimer=0;
 	}
 	@Override
 	public synchronized void tick(float deltaT) {
@@ -60,14 +93,12 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		trail.tick(deltaT);
 		double decel = velocity.getMagnitude()-velocity.getMagnitude()*0.009*deltaT;
 		velocity.setMagnitude(decel);
-		cooldownMS-=deltaT;
-		if(cooldownMS<0)
-			cooldownMS = 0;
 		
-		if(accuracyCone!=0 && !isShooting)
-			accuracyCone -= BulletCfg.accuracyGain * deltaT;
-		if(accuracyCone <=0.0001)
+		handleTimings(deltaT);
+		accuracyCone*=0.995;
+		if(accuracyCone <=0.01)
 			accuracyCone=0;
+	
 		
 		
 	}
@@ -87,17 +118,16 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		MyVector left =  new MyVector(700,(accuracyCone)*LogicHelper.radian+Math.PI/2);
 		MyVector right =  new MyVector(700,(-accuracyCone)*LogicHelper.radian+Math.PI/2);
 		
-		coneColor.a = (float) ((accuracyCone-coneCutoff)/(BulletCfg.accuracyCone-coneCutoff))*0.15f;
+		coneColor.a = (float) ((accuracyCone-coneCutoff)/(BulletCfg.accuracyCone-coneCutoff));
 		rh.drawForceLine(left, m_position, coneColor, 1);
 		rh.drawForceLine(right, m_position, coneColor, 1);
 	}
 	
 	@Override
 	public synchronized void draw(RenderHelper rh) {		
-		graphic.draw(rh);
 		trail.draw(rh);
-		drawFireCone(rh);
-		
+		drawFireCone(rh);	
+		graphic.draw(rh);		
 	}
 	
 	public void moveUp(float deltaT)
@@ -122,14 +152,9 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		dodgeMod = 1;
 	}
 	
-	public void debugMove(float deltaT)
-	{
-		velocity.add(new MyVector(dodgeMod*1,Math.PI));
-	}
 	
 	public void shootRelease()
 	{
-		isShooting = false;
 	}
 	
 	public void shoot(float deltaT)
@@ -139,7 +164,6 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		for(int i=0;i<BulletCfg.bulletsPerShot;++i)
 			shootBullet(deltaT);
 		cooldownMS = BulletCfg.shootCDMs;
-		isShooting = true;
 	}
 	
 	public void shootBullet(float deltaT)
@@ -147,7 +171,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		double angle = LogicHelper.getConeAngle(accuracyCone);
 		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,2);
 		
-		velocity.add(new MyVector(BulletCfg.recoil,Math.PI+angle));
+		velocity.add(new MyVector(0.02,Math.PI+angle));
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
 		accuracyCone+=BulletCfg.accuracyLoss;
@@ -156,8 +180,12 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		
 	}
 	
-	public void bomb()
+	public void dodge()
 	{
-		debugMove(0);
+		if(invulCD!=0)
+			return;
+		invulCD = ShipCfg.dodgeCooldown;
+		invulTimer = ShipCfg.dodgeInvulMS;
+		velocity.add(new MyVector(dodgeMod*1,Math.PI));
 	}
 }

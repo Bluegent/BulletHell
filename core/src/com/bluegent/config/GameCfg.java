@@ -1,4 +1,4 @@
-package com.bluegent.utils;
+package com.bluegent.config;
 
 public class GameCfg {
 	public static final int Width = 700;

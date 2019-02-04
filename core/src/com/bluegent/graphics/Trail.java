@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.GameObject;
 import com.bluegent.base.ObjectManager;
+import com.bluegent.config.GraphicsCfg;
 import com.bluegent.interfaces.DrawableShape;
-import com.bluegent.utils.GraphicsCfg;
 import com.bluegent.utils.RenderHelper;
 
 public class Trail extends GameObject implements DrawableShape{
@@ -17,7 +17,10 @@ public class Trail extends GameObject implements DrawableShape{
 	protected Color baseColor;
 	protected boolean trailFade;
 
-	
+	public synchronized void setColor(Color color)
+	{
+		baseColor = color;
+	}
 	
 	public void setFade(boolean fade)
 	{

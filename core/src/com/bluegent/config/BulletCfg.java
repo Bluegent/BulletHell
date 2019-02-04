@@ -1,4 +1,4 @@
-package com.bluegent.utils;
+package com.bluegent.config;
 
 public class BulletCfg {
 	public static final float bulletSize = 3;

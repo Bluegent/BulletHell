@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.MyVector;
+import com.bluegent.config.GameCfg;
+import com.bluegent.config.GraphicsCfg;
 
 public class RenderHelper {
 	private ShapeRenderer shapeRenderer;

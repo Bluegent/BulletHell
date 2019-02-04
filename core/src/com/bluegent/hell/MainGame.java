@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bluegent.base.BaseGame;
 import com.bluegent.base.Controls;
 import com.bluegent.base.ObjectManager;
-import com.bluegent.utils.GameCfg;
+import com.bluegent.config.GameCfg;
 import com.bluegent.utils.RenderHelper;
 
 public class MainGame extends BaseGame {

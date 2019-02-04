@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
-import com.bluegent.utils.GraphicsCfg;
+import com.bluegent.config.GraphicsCfg;
 import com.bluegent.utils.RateCalculator;
 
 public abstract class BaseGame extends ApplicationAdapter implements InputProcessor{

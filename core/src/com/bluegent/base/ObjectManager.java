@@ -3,9 +3,9 @@ package com.bluegent.base;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.bluegent.config.GameCfg;
 import com.bluegent.entities.PlayerShip;
 import com.bluegent.interfaces.DrawableShape;
-import com.bluegent.utils.GameCfg;
 import com.bluegent.utils.RenderHelper;
 
 public class ObjectManager {

@@ -1,7 +1,7 @@
 package com.bluegent.hell;
 
 import com.bluegent.base.ObjectManager;
-import com.bluegent.utils.GameCfg;
+import com.bluegent.config.GameCfg;
 import com.bluegent.utils.RateCalculator;
 
 public class PhysicsWorker implements Runnable{

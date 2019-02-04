@@ -10,6 +10,6 @@ public class PlayerManager {
 	}
 	public void bomb()
 	{
-		playerShip.bomb();
+		playerShip.dodge();
 	}
 }
