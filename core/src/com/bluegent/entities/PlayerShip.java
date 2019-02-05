@@ -21,7 +21,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private Trail trail;
 	private MyVector velocity;
 	private long cooldownMS;
-
+	private boolean isShooting;
 	private ShipWing left,right;
 	
 	private double accuracyCone;
@@ -42,6 +42,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		cooldownMS = 0;
 		accuracyCone = 0;
 		dodgeMod = 1;
+		
+		isShooting = false;
 		
 		isInvulnerable = false;
 		invulTimer = 0;
@@ -108,10 +110,11 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		velocity.setMagnitude(decel);
 		
 		handleTimings(deltaT);
-		accuracyCone*=0.995;
+		if(!isShooting) {
+		accuracyCone -= BulletCfg.accuracyGain * deltaT;
 		if(accuracyCone <=0.01)
 			accuracyCone=0;
-	
+		}
 		left.tick(deltaT);
 		right.tick(deltaT);
 		
@@ -173,12 +176,14 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void shootRelease()
 	{
+		isShooting = false;
 	}
 	
 	public void shoot(float deltaT)
 	{
 		if(cooldownMS!=0)
 			return;
+		isShooting = true;
 		for(int i=0;i<BulletCfg.bulletsPerShot;++i)
 			shootBullet(deltaT);
 		cooldownMS = BulletCfg.shootCDMs;

@@ -3,7 +3,6 @@ package com.bluegent.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.ObjectManager;
-import com.bluegent.graphics.RectangleTrail;
 import com.bluegent.graphics.Trail;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.LogicHelper;
