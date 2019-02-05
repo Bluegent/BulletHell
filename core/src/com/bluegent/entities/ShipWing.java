@@ -28,7 +28,7 @@ public class ShipWing extends ParentedObject implements DrawableShape{
 		pos3 = new Vector2();
 		flipMult = 1;
 		baseColor = color;
-		wingTrail = new Trail(m_position,8,LogicHelper.getTrailCount(10),color, om);
+		wingTrail = new Trail(m_position,3,LogicHelper.getTrailCount(30),color, om);
 	}
 
 	

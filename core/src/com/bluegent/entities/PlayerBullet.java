@@ -16,7 +16,10 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 	protected double xComp, yComp;
 	protected Trail trail;
 	protected long lifeTime;
+	private int counter;
 	
+	private int direction;
+	private static final int counterChange = 40;
 	
 	
 	
@@ -27,14 +30,29 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		trail = new Trail(m_position,5,LogicHelper.getTrailCount(10),Color.WHITE,om);
 		trail.setFade(true);
 		lifeTime = BulletCfg.bulletLifeTimeMS;
+		
+		counter = counterChange/2;
+		direction = 1;
 	}
 
 	private void updateAngle(double angle) {
 		angleInRad = angle;
 		xComp = Math.cos(angle);
 		yComp = Math.sin(angle);
-		
 	}
+	
+	public void updateMotion(float deltaT)
+	{
+		
+		/*counter += deltaT;
+		if(counter>=counterChange)
+		{
+			counter = 0;
+			direction=-1*direction;
+		}
+		updateAngle(angleInRad+direction*LogicHelper.radian*counter*deltaT*0.05);*/
+	}
+	
 	@Override
 	public synchronized void tick(float deltaT) {
 		if(lifeTime<=0)
@@ -56,7 +74,10 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		}
 		
 		trail.tick(deltaT);
-		lifeTime -= deltaT;		
+		lifeTime -= deltaT;
+		
+		updateMotion(deltaT);
+		
 		
 	}
 

@@ -194,7 +194,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		double angle = LogicHelper.getConeAngle(accuracyCone);
 		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,2);
 		
-		velocity.add(new MyVector(ShipCfg.shotRecoil,Math.PI+angle));
+		velocity.add(new MyVector(BulletCfg.shotRecoil,Math.PI+angle));
 		parent.addDrawable(bullet);
 		parent.addObject(bullet);
 		
