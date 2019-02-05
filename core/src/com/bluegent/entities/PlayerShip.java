@@ -3,7 +3,6 @@ package com.bluegent.entities;
 import com.badlogic.gdx.graphics.Color;
 
 import com.badlogic.gdx.math.Vector2;
-import com.bluegent.base.GameObject;
 import com.bluegent.base.MyVector;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.config.BulletCfg;
@@ -23,6 +22,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private MyVector velocity;
 	private long cooldownMS;
 
+	private ShipWing left,right;
+	
 	private double accuracyCone;
 	private int dodgeMod;
 	private boolean isInvulnerable;
@@ -45,6 +46,10 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		isInvulnerable = false;
 		invulTimer = 0;
 		invulCD = 0;
+		
+		left = new ShipWing(om,this,new Vector2(ShipCfg.wingOffsetX*-1,ShipCfg.wingOffsetY),Color.WHITE);
+		right = new ShipWing(om,this,new Vector2(ShipCfg.wingOffsetX,ShipCfg.wingOffsetY),Color.WHITE);
+		right.setFlipped(true);
 	}
 
 	private void clampVelocity(float deltaT)
@@ -98,7 +103,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		if(accuracyCone <=0.01)
 			accuracyCone=0;
 	
-		
+		left.tick(deltaT);
+		right.tick(deltaT);
 		
 	}
 
@@ -126,12 +132,15 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public synchronized void draw(RenderHelper rh) {		
 		trail.draw(rh);
 		drawFireCone(rh);	
+		left.draw(rh);
+		right.draw(rh);
 		graphic.draw(rh);		
 	}
 	
 	public void moveUp(float deltaT)
 	{
 		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
+		dodgeMod = 2;
 	}
 	
 	public void moveRight(float deltaT)
@@ -142,6 +151,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public void moveDown(float deltaT)
 	{
 		velocity.add(new MyVector(-1*ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
+		dodgeMod = 2;
 		
 	}
 	
@@ -182,7 +192,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void dodge()
 	{
-		if(invulCD!=0)
+		if(invulCD!=0 || dodgeMod == 2)
 			return;
 		invulCD = ShipCfg.dodgeCooldown;
 		invulTimer = ShipCfg.dodgeInvulMS;

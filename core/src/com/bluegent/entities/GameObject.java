@@ -1,6 +1,7 @@
-package com.bluegent.base;
+package com.bluegent.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.bluegent.base.ObjectManager;
 
 public abstract class GameObject{
 	protected Vector2 m_position;

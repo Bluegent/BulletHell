@@ -3,9 +3,9 @@ package com.bluegent.graphics;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.bluegent.base.GameObject;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.config.GraphicsCfg;
+import com.bluegent.entities.GameObject;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.RenderHelper;
 

@@ -6,4 +6,7 @@ public class ShipCfg {
 	public static double maxSpeed = 1500;
 	public static double moveSpeed = 0.01;
 	public static double shotRecoil = 0.015;
+	
+	public static final float wingOffsetX = -30;
+	public static final float wingOffsetY = -10;
 }
