@@ -57,8 +57,8 @@ public class Trail extends GameObject implements DrawableShape{
 			{
 				float color  = ((float)i/(float)trailCount);
 				use.r = baseColor.r * color;
-				use.b = baseColor.g * color;
-				use.g = baseColor.b * color;
+				use.g = baseColor.g * color;
+				use.b = baseColor.b * color;
 				rh.drawLine(positions.get(i+1), positions.get(i), use, trailSize*((float)i/(float)trailCount));
 				break;
 			}

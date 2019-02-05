@@ -17,7 +17,6 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 	protected Trail trail;
 	protected long lifeTime;
 	private int counter;
-	
 	private int direction;
 	private static final int counterChange = 40;
 	

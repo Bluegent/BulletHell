@@ -36,7 +36,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public PlayerShip(Vector2 pos, ObjectManager om) {
 		super(pos,om);
 		graphic = new SpinningRectangle(30, Color.WHITE, pos,parent);
-		trail = new RectangleTrail(pos,15,LogicHelper.getTrailCount(20),Color.WHITE,parent);
+		trail = new RectangleTrail(pos,15,LogicHelper.getTrailCount(15),Color.WHITE,parent);
 		trail.setFade(true);
 		velocity = new MyVector(0,0);
 		cooldownMS = 0;
@@ -63,9 +63,9 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		}
 	}
 	
-	private void setTrailColors(Color color)
+	private void setTrailColors(Color color,Color color2)
 	{
-		trail.setColor(color);
+		trail.setColor(color2);
 		left.setTrailColor(color);
 		right.setTrailColor(color);
 	}
@@ -87,11 +87,11 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		
 		isInvulnerable = invulTimer>0;
 		
-		if(isInvulnerable){
-			setTrailColors(Color.CYAN);
+		if(!isInvulnerable){
+			setTrailColors(Color.CYAN,Color.ORANGE);
 		}
 		else{
-			setTrailColors(Color.WHITE);
+			setTrailColors(Color.WHITE,Color.WHITE);
 		}
 		
 		invulTimer-=deltaT;
@@ -195,7 +195,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,2);
 		
 		velocity.add(new MyVector(BulletCfg.shotRecoil,Math.PI+angle));
-		parent.addDrawable(bullet);
+		parent.addBullet(bullet);
 		parent.addObject(bullet);
 		
 		accuracyCone+=BulletCfg.accuracyLoss;

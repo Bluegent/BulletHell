@@ -21,6 +21,7 @@ public class ObjectManager {
 	
 	private ArrayList<GameObject> objects;
 	private ArrayList<DrawableShape> drawableS;
+	private ArrayList<DrawableShape> bullets;
 	@SuppressWarnings("unused")
 	private KeyActionManager keyManager;
 	private PlayerShip ship;
@@ -35,6 +36,7 @@ public class ObjectManager {
 		objects = new ArrayList<GameObject>();
 		ship = new PlayerShip(new Vector2(GameCfg.Width/2, GameCfg.Height/2),this);
 		drawableS = new ArrayList<DrawableShape>();
+		bullets = new ArrayList<DrawableShape>();
 		PlayerManager manager = new PlayerManager(ship);
 		keyManager = new KeyActionManager(manager);
 		Controls.setKeyManager(keyManager);
@@ -84,6 +86,10 @@ public class ObjectManager {
 	
 	public synchronized void drawShapes(RenderHelper rh)
 	{
+		for(DrawableShape bullet : bullets)
+		{
+			bullet.draw(rh);	
+		}
 		for(DrawableShape drawMe : drawableS)
 		{
 			drawMe.draw(rh);	
@@ -111,6 +117,16 @@ public class ObjectManager {
 			objects.remove(obj);
 	}
 	
+	public synchronized void removeBullet(DrawableShape shape)
+	{
+		if(bullets.contains(shape))
+			bullets.remove(shape);
+	}
+	
+	public synchronized void addBullet(DrawableShape shape)
+	{
+		bullets.add(shape);
+	}
 	
 	public synchronized void addDrawable(DrawableShape shape)
 	{

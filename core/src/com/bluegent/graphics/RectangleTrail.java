@@ -42,8 +42,8 @@ public class RectangleTrail extends Trail{
 			{
 				float color  = ((float)i/(float)trailCount);
 				use.r = baseColor.r * color;
-				use.b = baseColor.g * color;
-				use.g = baseColor.b * color;
+				use.b = baseColor.b * color;
+				use.g = baseColor.g * color;
 				rh.drawRectangle( positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, use);
 				break;
 			}

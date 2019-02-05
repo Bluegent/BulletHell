@@ -110,6 +110,13 @@ public class RenderHelper {
 		shapeRenderer.end();
 	}
 	
+	public void drawFillRectangleB(Vector2 pos, float radius, float angle, Color bg, Color line)
+	{
+		drawFillRectangle(pos,radius,angle,bg);
+		drawRectangle(pos,radius,angle,line);
+	}
+	
+	
 	public void drawForceLine(MyVector force, Vector2 origin, Color color, float width)
 	{
 		drawLine(origin,new Vector2(origin.x+(float)force.getX(),origin.y+(float)force.getY()),color,width);
@@ -130,5 +137,11 @@ public class RenderHelper {
 		shapeRenderer.setColor(color);
 		shapeRenderer.triangle(pos1.x,pos1.y,pos2.x,pos2.y,pos3.x,pos3.y);
 		shapeRenderer.end();
+	}
+	
+	public void drawTriangleB(Vector2 pos1, Vector2 pos2, Vector2 pos3,Color bgColor, Color line,int thickness)
+	{
+		drawFilledTriangle(pos1,pos2,pos3,bgColor,thickness);
+		drawTriangle(pos1,pos2,pos3,line,thickness);
 	}
 }

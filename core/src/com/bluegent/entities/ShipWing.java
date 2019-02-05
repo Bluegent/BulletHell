@@ -3,6 +3,7 @@ package com.bluegent.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.ObjectManager;
+import com.bluegent.config.GraphicsCfg;
 import com.bluegent.graphics.Trail;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.LogicHelper;
@@ -20,6 +21,7 @@ public class ShipWing extends ParentedObject implements DrawableShape{
 	public static final float triangleWidth = 12;
 	public static final float bottomCornerOffset = -5;
 	public static final float topCornerOffset = 3;
+	public static final float totalYOffset = 5;
 	
 	public ShipWing(ObjectManager om, GameObject parent, Vector2 offset, Color color) {
 		super(om, parent, offset);
@@ -28,7 +30,7 @@ public class ShipWing extends ParentedObject implements DrawableShape{
 		pos3 = new Vector2();
 		flipMult = 1;
 		baseColor = color;
-		wingTrail = new Trail(m_position,3,LogicHelper.getTrailCount(30),color, om);
+		wingTrail = new Trail(m_position,8,LogicHelper.getTrailCount(30),color, om);
 	}
 
 	
@@ -52,18 +54,19 @@ public class ShipWing extends ParentedObject implements DrawableShape{
 	@Override
 	public synchronized void draw(RenderHelper rh) {
 		
-		pos1.x = m_position.x + flipMult *bottomCornerOffset;
-		pos1.y = m_position.y - bottomCornerOffset;
-		pos2.x = m_position.x - flipMult * topCornerOffset;
-		pos2.y = m_position.y + triangleHeight;
-		pos3.x = m_position.x + flipMult * triangleWidth;
-		pos3.y = m_position.y + bottomCornerOffset;	
 		
-		rh.drawTriangle(pos1, pos2, pos3, baseColor, 1);
+		
+		pos1.x = m_position.x + flipMult *bottomCornerOffset;
+		pos1.y = m_position.y - bottomCornerOffset - totalYOffset;
+		pos2.x = m_position.x - flipMult * topCornerOffset;
+		pos2.y = m_position.y + triangleHeight - totalYOffset;
+		pos3.x = m_position.x + flipMult * triangleWidth;
+		pos3.y = m_position.y + bottomCornerOffset - totalYOffset;	
+		
 		
 		wingTrail.draw(rh);
-		
-		
+		rh.drawTriangleB(pos1, pos2, pos3, GraphicsCfg.BGColor,baseColor, 1);
+
 	}
 
 }
