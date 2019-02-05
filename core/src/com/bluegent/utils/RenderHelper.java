@@ -115,6 +115,15 @@ public class RenderHelper {
 		drawLine(origin,new Vector2(origin.x+(float)force.getX(),origin.y+(float)force.getY()),color,width);
 	}
 	
+	
+	public void drawFilledTriangle(Vector2 pos1, Vector2 pos2, Vector2 pos3, Color color,int thickness)
+	{
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(color);
+		shapeRenderer.triangle(pos1.x,pos1.y,pos2.x,pos2.y,pos3.x,pos3.y);
+		shapeRenderer.end();
+	}
+	
 	public void drawTriangle(Vector2 pos1, Vector2 pos2, Vector2 pos3, Color color,int thickness)
 	{
 		shapeRenderer.begin(ShapeType.Line);

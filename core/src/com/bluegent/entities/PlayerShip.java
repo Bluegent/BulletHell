@@ -61,6 +61,13 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		}
 	}
 	
+	private void setTrailColors(Color color)
+	{
+		trail.setColor(color);
+		left.setTrailColor(color);
+		right.setTrailColor(color);
+	}
+	
 	/**
 	 * ONLY CALL ONCE
 	 * @param deltaT
@@ -78,10 +85,12 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		
 		isInvulnerable = invulTimer>0;
 		
-		if(isInvulnerable)
-			trail.setColor(Color.CYAN);
-		else
-			trail.setColor(Color.WHITE);
+		if(isInvulnerable){
+			setTrailColors(Color.CYAN);
+		}
+		else{
+			setTrailColors(Color.WHITE);
+		}
 		
 		invulTimer-=deltaT;
 		if(invulTimer<0)
