@@ -20,21 +20,25 @@ public class RectangleTrail extends Trail{
 	
 	private boolean isSame()
 	{
-		for(int i=0;i<positions.size-1;++i)
+		for(int i=0;i<dState.positions.size-1;++i)
 		{
-			if(Math.abs(positions.get(i).x - positions.get(i+1).x)>=tolerance || Math.abs(positions.get(i).y - positions.get(i+1).y)>=tolerance)
+			if(Math.abs(dState.positions.get(i).x - dState.positions.get(i+1).x)>=tolerance || Math.abs(dState.positions.get(i).y - dState.positions.get(i+1).y)>=tolerance)
 				return false;
 		}
 		return true;
 	}
 	
 	@Override
-	public synchronized void draw(RenderHelper rh)
+	public void draw(RenderHelper rh)
 	{
+		//synchronized(tState)
+		//{
+			dState.copyFrom(tState);
+		//}
 		if(isSame())
 			return;
 		Color use = new Color(baseColor);
-		for(int i=0;i<positions.size;++i)
+		for(int i=0;i<dState.positions.size;++i)
 		{
 			switch(GraphicsCfg.rectangleTrails)
 			{
@@ -44,19 +48,19 @@ public class RectangleTrail extends Trail{
 				use.r = baseColor.r * color;
 				use.b = baseColor.b * color;
 				use.g = baseColor.g * color;
-				rh.drawRectangle( positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, use);
+				rh.drawRectangle( dState.positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, use);
 				break;
 			}
 			case Alpha:
 			{
 				use.a  = ((float)i/(float)trailCount);
-				rh.drawRectangle( positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, use);
+				rh.drawRectangle( dState.positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, use);
 				break;
 			}
 
 			case Simple:
 			{
-				rh.drawRectangle( positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, baseColor);
+				rh.drawRectangle( dState.positions.get(i), trailSize*((float)i/(float)trailCount), (float) angle, baseColor);
 				break;
 			}
 			default:
@@ -67,7 +71,7 @@ public class RectangleTrail extends Trail{
 	}
 	
 	@Override
-	public synchronized void tick(float deltaT) {
+	public  void tick(float deltaT) {
 		super.tick(deltaT);
 		angle -= 0.360f  * deltaT;
 	}

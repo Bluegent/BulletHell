@@ -57,8 +57,10 @@ public class PhysicsWorker implements Runnable{
 					
 				}
 				long after = System.currentTimeMillis();
-				difference = now-after;
-				Thread.sleep(GameCfg.TickMS-difference);
+				difference = after-now;
+				
+				if(difference<GameCfg.TickMS)
+					Thread.sleep(GameCfg.TickMS-difference);
 			}
 		}
 		catch (InterruptedException e) {

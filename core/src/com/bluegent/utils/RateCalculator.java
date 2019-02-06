@@ -8,7 +8,7 @@ public class RateCalculator {
 	private double avgPerSecond;
 	private static int counter;
 	
-	private static final int sampleRate = 100;
+	private static final int sampleRate = 40;
 	private static final int updateTime = 50;
 	
 	public RateCalculator()
