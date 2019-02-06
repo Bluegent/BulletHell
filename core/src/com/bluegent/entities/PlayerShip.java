@@ -157,17 +157,23 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void moveUp(float deltaT)
 	{
+		if(isInvulnerable)
+			return;
 		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
 		dodgeMod = 2;
 	}
 	
 	public void moveRight(float deltaT)
 	{
+		if(isInvulnerable)
+			return;
 		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,0));
 		dodgeMod = -1;
 	}	
 	public void moveDown(float deltaT)
 	{
+		if(isInvulnerable)
+			return;
 		velocity.add(new MyVector(-1*ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
 		dodgeMod = 2;
 		
@@ -175,6 +181,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void moveLeft(float deltaT)
 	{
+		if(isInvulnerable)
+			return;
 		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,Math.PI));
 		dodgeMod = 1;
 	}
@@ -198,7 +206,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public void shootBullet(float deltaT)
 	{
 		double angle = LogicHelper.getConeAngle(accuracyCone);
-		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,2);
+		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,BulletCfg.bulletSpeed);
 		
 		velocity.add(new MyVector(BulletCfg.shotRecoil,Math.PI+angle));
 		parent.addBullet(bullet);
@@ -216,6 +224,6 @@ public class PlayerShip extends GameObject implements DrawableShape{
 			return;
 		invulCD = ShipCfg.dodgeCooldown;
 		invulTimer = ShipCfg.dodgeInvulMS;
-		velocity.add(new MyVector(dodgeMod*1.5,Math.PI));
+		velocity.add(new MyVector(dodgeMod*1,Math.PI));
 	}
 }

@@ -21,9 +21,7 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 	protected long lifeTime;
 	private int counter;
 	private int direction;
-	private static final int counterChange = 40;
-	
-	
+	private static final int counterChange = 1;
 	
 	public PlayerBullet(Vector2 pos, ObjectManager om, double angle, double speed) {
 		super(new Vector2(pos), om);
@@ -32,6 +30,7 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		trail = new Trail(m_position,5,LogicHelper.getTrailCount(10),Color.WHITE,om);
 		trail.setFade(true);
 		lifeTime = BulletCfg.bulletLifeTimeMS;
+	
 		
 		counter = counterChange/2;
 		direction = 1;
@@ -46,13 +45,15 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 	public void updateMotion(float deltaT)
 	{
 		
-		/*counter += deltaT;
+		/*
+		counter += deltaT;
 		if(counter>=counterChange)
 		{
 			counter = 0;
 			direction=-1*direction;
 		}
-		updateAngle(angleInRad+direction*LogicHelper.radian*counter*deltaT*0.05);*/
+		updateAngle(angleInRad+direction*LogicHelper.radian*counter*deltaT*0.1);
+		*/
 		
 	}
 	
@@ -64,7 +65,7 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		
 		float xDistComp = (float) (BulletCfg.subStepDistance * xComp);
 		float yDistComp = (float) (BulletCfg.subStepDistance * yComp);
-		while(travelledDistance < speed)
+		while(travelledDistance < speed*deltaT)
 		{	
 			subStep.x += xDistComp;
 			subStep.y += yDistComp;
@@ -105,21 +106,15 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		trail.tick(deltaT);
 		lifeTime -= deltaT;
 		
-		
-		
-		
-		
-		
-		
 	}
 
 	@Override
-	public synchronized void draw(RenderHelper rh) {
+	public synchronized void draw(RenderHelper rh) {	
+		
 		if(!RenderHelper.isInViewPort(m_position,5))
 			return;
 		rh.drawFillRectangle(m_position, BulletCfg.bulletSize, (float) angleInRad, Color.WHITE);
 		trail.draw(rh);
-		
 	}
 
 }
