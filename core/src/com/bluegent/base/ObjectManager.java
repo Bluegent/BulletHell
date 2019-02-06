@@ -45,10 +45,13 @@ public class ObjectManager {
 		Controls.setKeyManager(keyManager);
 		drawableS.add(ship);
 		objects.add(ship);
-		HitBox testBox = new HitBox(new Vector2(GameCfg.Width/2,GameCfg.Height-100),this,50,50);
-		enemies.add(testBox);
-		objects.add(testBox);
-		drawableS.add(testBox);
+		for(int i=0; i<10;++i)
+		{
+			HitBox testBox = new HitBox(new Vector2(GameCfg.Width*(float)Math.random(),GameCfg.Height*(float)Math.random()),this,30,30);
+			enemies.add(testBox);
+			objects.add(testBox);
+			drawableS.add(testBox);
+		}
 	}
 	
 	public void pollControls(float deltaT)

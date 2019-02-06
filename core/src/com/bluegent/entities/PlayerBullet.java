@@ -86,12 +86,16 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		this.m_position.x += speed * deltaT * xComp;
 		this.m_position.y += speed * deltaT * yComp;
 	}
+	
 	@Override
 	public synchronized void tick(float deltaT) {
 		if(lifeTime<=0)
 		{
 			parent.removeBullet(this);
 			parent.removeObject(this);
+			Explosion exp = new Explosion(new Vector2(m_position.x,m_position.y),parent);
+			parent.addObject(exp);
+			parent.addDrawable(exp);
 			return;
 		}
 		updateMotion(deltaT);

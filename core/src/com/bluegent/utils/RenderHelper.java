@@ -152,4 +152,12 @@ public class RenderHelper {
 		shapeRenderer.rect(lowerLeft.x,lowerLeft.y,0,0,upperRight.x-lowerLeft.x,upperRight.y-lowerLeft.y,1,1,0);
 		shapeRenderer.end();
 	}
+	
+	public void drawCircle(Vector2 origin, float radius, Color color)
+	{
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(color);
+		shapeRenderer.circle(origin.x, origin.y, radius);
+		shapeRenderer.end();
+	}
 }

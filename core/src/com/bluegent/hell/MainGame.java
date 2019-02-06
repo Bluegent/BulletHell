@@ -6,12 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.bluegent.base.BaseGame;
 import com.bluegent.base.Controls;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.config.GameCfg;
-import com.bluegent.utils.LogicHelper;
 import com.bluegent.utils.RenderHelper;
 
 public class MainGame extends BaseGame {
