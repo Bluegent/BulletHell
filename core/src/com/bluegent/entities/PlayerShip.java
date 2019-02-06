@@ -33,6 +33,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private static final Color coneColor = new Color(1,1,1,0.5f);
 	private static final double coneCutoff = 0;
 	
+	private HitBox hitBox;
+	
 	public PlayerShip(Vector2 pos, ObjectManager om) {
 		super(pos,om);
 		graphic = new SpinningRectangle(30, Color.WHITE, pos,parent);
@@ -52,6 +54,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		left = new ShipWing(om,this,new Vector2(ShipCfg.wingOffsetX*-1,ShipCfg.wingOffsetY),Color.WHITE);
 		right = new ShipWing(om,this,new Vector2(ShipCfg.wingOffsetX,ShipCfg.wingOffsetY),Color.WHITE);
 		right.setFlipped(true);
+		
+		hitBox = new HitBox(pos, om,20,20);
 	}
 
 	private void clampVelocity(float deltaT)
@@ -117,6 +121,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		}
 		left.tick(deltaT);
 		right.tick(deltaT);
+		hitBox.tick(deltaT);
 		
 	}
 
@@ -146,7 +151,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		drawFireCone(rh);	
 		left.draw(rh);
 		right.draw(rh);
-		graphic.draw(rh);		
+		graphic.draw(rh);	
+		hitBox.draw(rh);
 	}
 	
 	public void moveUp(float deltaT)

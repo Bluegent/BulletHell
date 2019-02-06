@@ -50,9 +50,9 @@ public class LogicHelper {
 	{
 		long last = System.currentTimeMillis();
 		long cCol=0, sCol=0;
-		for(int i=0;i<100;++i)
+		for(int i=0;i<10000;++i)
 		{
-			for(int j=0;j<100;++j)
+			for(int j=0;j<1000;++j)
 			{
 			boolean col =LogicHelper.circleCollide(new Vector2((float)Math.random()*GameCfg.Height,(float)Math.random()*GameCfg.Height), new Vector2((float)Math.random()*GameCfg.Height,(float)Math.random()*GameCfg.Height),(float)Math.random()*GameCfg.Height);
 			if(col)
@@ -62,9 +62,9 @@ public class LogicHelper {
 		long nowMs = System.currentTimeMillis();
 		System.out.println("Circle coll: "+(nowMs-last)+" ms");
 		last=System.currentTimeMillis();
-		for(int i=0;i<100;++i)
+		for(int i=0;i<10000;++i)
 		{
-			for(int j=0;j<100;++j)
+			for(int j=0;j<1000;++j)
 			{
 			boolean col = LogicHelper.squareCollide(new Vector2((float)Math.random()*GameCfg.Height,(float)Math.random()*GameCfg.Height), new Vector2((float)Math.random()*GameCfg.Height,(float)Math.random()*GameCfg.Height),new Vector2((float)Math.random()*GameCfg.Height,(float)Math.random()*GameCfg.Height));
 			if(col)

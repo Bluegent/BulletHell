@@ -144,4 +144,12 @@ public class RenderHelper {
 		drawFilledTriangle(pos1,pos2,pos3,bgColor,thickness);
 		drawTriangle(pos1,pos2,pos3,line,thickness);
 	}
+	
+	public void drawRectangle(Vector2 lowerLeft, Vector2 upperRight, Color color, int lineThickness)
+	{
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(color);
+		shapeRenderer.rect(lowerLeft.x,lowerLeft.y,0,0,upperRight.x-lowerLeft.x,upperRight.y-lowerLeft.y,1,1,0);
+		shapeRenderer.end();
+	}
 }

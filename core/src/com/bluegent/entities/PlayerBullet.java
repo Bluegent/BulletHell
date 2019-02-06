@@ -50,13 +50,14 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 			direction=-1*direction;
 		}
 		updateAngle(angleInRad+direction*LogicHelper.radian*counter*deltaT*0.05);*/
+		
 	}
 	
 	@Override
 	public synchronized void tick(float deltaT) {
 		if(lifeTime<=0)
 		{
-			parent.removeDrawable(this);
+			parent.removeBullet(this);
 			parent.removeObject(this);
 			return;
 		}
