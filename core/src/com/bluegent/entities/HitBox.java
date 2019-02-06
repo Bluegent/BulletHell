@@ -2,13 +2,14 @@ package com.bluegent.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.bluegent.base.Collidable;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.config.DebugCfg;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.LogicHelper;
 import com.bluegent.utils.RenderHelper;
 
-public class HitBox extends GameObject implements DrawableShape{
+public class HitBox extends GameObject implements DrawableShape, Collidable{
 
 	public Vector2 lowerLeft,upperRight;
 	public float width, height;
@@ -20,12 +21,14 @@ public class HitBox extends GameObject implements DrawableShape{
 		this.height = height/2;
 	}
 
+	@Override
 	public boolean collidesWith(Vector2 point)
 	{
 		return LogicHelper.squareCollide(point, lowerLeft, upperRight);
 	}
 	
-	public boolean collidesWith(HitBox box)
+	@Override
+	public boolean collidesWith(Collidable box)
 	{
 		
 		return false;

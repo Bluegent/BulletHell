@@ -9,4 +9,6 @@ public class BulletCfg {
 	public static double accuracyLoss = 0.05;
 	public static double accuracyGain = 0.005;
 	public static double shotRecoil = 0.015;
+	
+	public static final float subStepDistance = 5;
 }

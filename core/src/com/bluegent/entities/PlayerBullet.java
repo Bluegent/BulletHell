@@ -1,7 +1,10 @@
 package com.bluegent.entities;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.bluegent.base.Collidable;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.config.BulletCfg;
 import com.bluegent.graphics.Trail;
@@ -53,6 +56,36 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 		
 	}
 	
+	public void doCollision(float deltaT)
+	{
+		Vector2 subStep = new Vector2(m_position.x,m_position.y);
+		float travelledDistance = 0;
+		ArrayList<GameObject> enemies = parent.getObjectsOfInterest(ObjectManager.ObjectType.EnemyPart);
+		
+		float xDistComp = (float) (BulletCfg.subStepDistance * xComp);
+		float yDistComp = (float) (BulletCfg.subStepDistance * yComp);
+		while(travelledDistance < speed)
+		{	
+			subStep.x += xDistComp;
+			subStep.y += yDistComp;
+			for(GameObject obj : enemies)
+			{
+				Collidable col = (Collidable)obj;
+				boolean temp = col.collidesWith(subStep);
+				if(col != null && temp)
+				{
+					lifeTime = 0;
+					this.m_position.x = subStep.x;
+					this.m_position.y = subStep.y;
+					return;
+				}
+			}
+			travelledDistance+=BulletCfg.subStepDistance;
+		}
+
+		this.m_position.x += speed * deltaT * xComp;
+		this.m_position.y += speed * deltaT * yComp;
+	}
 	@Override
 	public synchronized void tick(float deltaT) {
 		if(lifeTime<=0)
@@ -61,22 +94,17 @@ public class PlayerBullet extends GameObject implements DrawableShape{
 			parent.removeObject(this);
 			return;
 		}
-		this.m_position.x += speed * xComp * deltaT;
-		this.m_position.y += speed * yComp * deltaT;
+		updateMotion(deltaT);
 		
-		
-		for(int i=0;i<100;++i)
-		{
-			if(RenderHelper.isInViewPort(m_position, 5))
-			{
-				parent.getObjectsOfInterest(ObjectManager.ObjectType.EnemyPart);
-			}
-		}
-		
+		doCollision(deltaT);
+
 		trail.tick(deltaT);
 		lifeTime -= deltaT;
 		
-		updateMotion(deltaT);
+		
+		
+		
+		
 		
 		
 	}

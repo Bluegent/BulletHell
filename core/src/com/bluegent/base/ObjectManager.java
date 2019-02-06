@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.bluegent.config.GameCfg;
 import com.bluegent.entities.GameObject;
+import com.bluegent.entities.HitBox;
 import com.bluegent.entities.PlayerShip;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.RenderHelper;
@@ -22,6 +23,7 @@ public class ObjectManager {
 	private ArrayList<GameObject> objects;
 	private ArrayList<DrawableShape> drawableS;
 	private ArrayList<DrawableShape> bullets;
+	private ArrayList<GameObject> enemies;
 	@SuppressWarnings("unused")
 	private KeyActionManager keyManager;
 	private PlayerShip ship;
@@ -34,6 +36,7 @@ public class ObjectManager {
 	public ObjectManager()
 	{
 		objects = new ArrayList<GameObject>();
+		enemies = new ArrayList<GameObject>();
 		ship = new PlayerShip(new Vector2(GameCfg.Width/2, GameCfg.Height/2),this);
 		drawableS = new ArrayList<DrawableShape>();
 		bullets = new ArrayList<DrawableShape>();
@@ -42,6 +45,10 @@ public class ObjectManager {
 		Controls.setKeyManager(keyManager);
 		drawableS.add(ship);
 		objects.add(ship);
+		HitBox testBox = new HitBox(new Vector2(GameCfg.Width/2,GameCfg.Height-100),this,50,50);
+		enemies.add(testBox);
+		objects.add(testBox);
+		drawableS.add(testBox);
 	}
 	
 	public void pollControls(float deltaT)
@@ -72,7 +79,7 @@ public class ObjectManager {
 		{
 			case EnemyPart:
 			{
-				return objects;
+				return enemies;
 			}
 		default:
 			break;
