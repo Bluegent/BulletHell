@@ -10,8 +10,8 @@ import com.bluegent.utils.RenderHelper;
 public class Explosion extends GameObject implements DrawableShape
 {
 
-	public static final float maxSize= 20;
-	public static final float sizeInc = 0.07f;
+	public static final float maxSize= 40;
+	public static final float sizeInc = 0.1f;
 	private float size = 0;
 	private Color color;
 	public Explosion(Vector2 pos, ObjectManager om) {

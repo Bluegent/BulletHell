@@ -157,23 +157,17 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void moveUp(float deltaT)
 	{
-		if(isInvulnerable)
-			return;
 		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
 		dodgeMod = 2;
 	}
 	
 	public void moveRight(float deltaT)
 	{
-		if(isInvulnerable)
-			return;
 		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,0));
 		dodgeMod = -1;
 	}	
 	public void moveDown(float deltaT)
 	{
-		if(isInvulnerable)
-			return;
 		velocity.add(new MyVector(-1*ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
 		dodgeMod = 2;
 		
@@ -181,8 +175,6 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void moveLeft(float deltaT)
 	{
-		if(isInvulnerable)
-			return;
 		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,Math.PI));
 		dodgeMod = 1;
 	}
@@ -220,10 +212,10 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	
 	public void dodge()
 	{
-		if(invulCD!=0 || dodgeMod == 2)
+		if(invulCD!=0)
 			return;
 		invulCD = ShipCfg.dodgeCooldown;
 		invulTimer = ShipCfg.dodgeInvulMS;
-		velocity.add(new MyVector(dodgeMod*1,Math.PI));
+		//velocity.add(new MyVector(dodgeMod*1,Math.PI));
 	}
 }
