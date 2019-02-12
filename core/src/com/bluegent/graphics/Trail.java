@@ -16,7 +16,7 @@ public class Trail extends GameObject implements DrawableShape{
 	protected int trailCount;
 	protected Color baseColor;
 	protected boolean trailFade;
-	protected State dState, tState;
+	protected State dState, tState,cState;
 	
 	class State{
 		public Queue<Vector2> positions;
@@ -50,6 +50,7 @@ public class Trail extends GameObject implements DrawableShape{
 		baseColor = color;
 		dState = new State();
 		tState = new State();
+		cState = new State();
 		
 		trailFade = false;
 		for(int i=0;i<trailCount;++i )
@@ -63,42 +64,41 @@ public class Trail extends GameObject implements DrawableShape{
 	@Override
 	public void draw(RenderHelper rh) {	
 		
-		synchronized(tState)
+		synchronized(dState)
 		{
-			dState.copyFrom(tState);
+			cState.copyFrom(dState);
 		}
 		Color use = new Color(baseColor);
-		//rh.drawLine(dState.positions.first(), dState.positions.last(), use, trailSize);
 		
-		for(int i=0;i<dState.positions.size-1;++i)
+		for(int i=0;i<cState.positions.size-1;++i)
 		{
 			if(!RenderHelper.isInViewPort(dState.positions.get(i), trailSize))
 				continue;
 			switch(GraphicsCfg.lineTrails)
 			{
-			case Gradient:
-			{
-				float color  = ((float)i/(float)trailCount);
-				use.r = baseColor.r * color;
-				use.g = baseColor.g * color;
-				use.b = baseColor.b * color;
-				rh.drawLine(dState.positions.get(i+1), dState.positions.get(i), use, trailSize*((float)i/(float)trailCount));
-				break;
-			}
-			case Simple:
-			{
-				rh.drawLine(dState.positions.get(i+1), dState.positions.get(i), baseColor, trailSize*((float)i/(float)trailCount));
-				break;
-			}
-			case Alpha: 
-			{
-				use.a = ((float)i/(float)trailCount);
-				rh.drawLine(dState.positions.get(i+1), dState.positions.get(i), use, trailSize*((float)i/(float)trailCount));
-				break;
-			}
-			default:
-				break;
-			}
+				case Gradient:
+				{
+					float color  = ((float)i/(float)trailCount);
+					use.r = baseColor.r * color;
+					use.g = baseColor.g * color;
+					use.b = baseColor.b * color;
+					rh.drawLine(cState.positions.get(i+1), cState.positions.get(i), use, trailSize*((float)i/(float)trailCount));
+					break;
+				}
+				case Simple:
+				{
+					rh.drawLine(cState.positions.get(i+1), cState.positions.get(i), baseColor, trailSize*((float)i/(float)trailCount));
+					break;
+				}
+				case Alpha: 
+				{
+					use.a = ((float)i/(float)trailCount);
+					rh.drawLine(cState.positions.get(i+1), cState.positions.get(i), use, trailSize*((float)i/(float)trailCount));
+					break;
+				}
+				default:
+					break;
+				}
 		}
 		
 	}
@@ -107,6 +107,10 @@ public class Trail extends GameObject implements DrawableShape{
 	public void tick(float deltaT) {
 		tState.positions.removeFirst();
 		tState.positions.addLast(new Vector2(m_position));	
+		synchronized(dState)
+		{
+			dState.copyFrom(tState);
+		}
 	}
 
 }

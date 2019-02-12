@@ -157,7 +157,7 @@ public class RenderHelper {
 	{
 		shapeRenderer.begin(ShapeType.Line);
 		shapeRenderer.setColor(color);
-		shapeRenderer.circle(origin.x, origin.y, radius);
+		shapeRenderer.circle(origin.x, origin.y, radius,8);
 		shapeRenderer.end();
 	}
 }

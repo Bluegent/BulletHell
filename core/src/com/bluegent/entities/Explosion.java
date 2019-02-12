@@ -12,17 +12,37 @@ public class Explosion extends GameObject implements DrawableShape
 
 	public static final float maxSize= 40;
 	public static final float sizeInc = 0.1f;
-	private float size = 0;
 	private Color color;
+	
+	class ExplosionState
+	{
+		float size;
+		public void copyFrom(ExplosionState other) {
+			size=other.size;
+		}
+		
+	}
+	ExplosionState real,copy,doubleCopy;
 	public Explosion(Vector2 pos, ObjectManager om) {
 		super(pos, om);
 		color = new Color(Color.WHITE);
+		
+		real = new ExplosionState();
+		copy = new ExplosionState();
+		doubleCopy = new ExplosionState();
+		real.size= 0;
 	}
 
 	@Override
-	public synchronized void tick(float deltaT) {
-		size+=deltaT*sizeInc;
-		if(size > maxSize)
+	public  void tick(float deltaT) {
+		real.size+=deltaT*sizeInc;		
+		synchronized(copy)
+		{
+			copy.copyFrom(real);
+		}
+		
+		
+		if(real.size > maxSize)
 		{
 			parent.removeDrawable(this);
 			parent.removeObject(this);
@@ -33,21 +53,26 @@ public class Explosion extends GameObject implements DrawableShape
 
 
 	@Override
-	public synchronized void draw(RenderHelper rh) {
+	public void draw(RenderHelper rh) {
+		synchronized(copy)
+		{
+			doubleCopy.copyFrom(copy);
+		}
 		
-		float colorN = 1-size/maxSize;
+		
+		float colorN = 1-doubleCopy.size/maxSize;
 		switch(GraphicsCfg.expliosionQuality)
 		{
 		case Alpha:
 			
 			color.a = colorN;
-			rh.drawCircle(m_position,size,color);
+			rh.drawCircle(m_position,doubleCopy.size,color);
 			break;
 		case Gradient:
 			color.r = colorN;
 			color.g = colorN;
 			color.b = colorN;
-			rh.drawCircle(m_position,size,color);
+			rh.drawCircle(m_position,doubleCopy.size,color);
 			break;
 		case Off:
 			break;
