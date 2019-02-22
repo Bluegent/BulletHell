@@ -3,6 +3,8 @@ package com.bluegent.base;
 import java.util.EnumMap;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
+import com.bluegent.config.GameCfg;
 
 public class Controls {
 	public static enum Key
@@ -18,10 +20,17 @@ public class Controls {
 	public static EnumMap<Key,Integer> keys;
 	public static EnumMap<Key,Boolean> keyDown;
 	private static KeyActionManager manager;
+	public static Vector2 mousePos;
 	
 	public static void setKeyManager(KeyActionManager man)
 	{
 		manager =  man;
+	}
+	
+	public static void setMousePose(float x, float y)
+	{
+		mousePos.x = x;
+		mousePos.y = GameCfg.Height-y;
 	}
 	
 	public static void setKey(Key key, int keycode)
@@ -34,7 +43,7 @@ public class Controls {
 	{
 		keyDown = new  EnumMap<Key,Boolean>(Key.class);
 		keys = new  EnumMap<Key,Integer>(Key.class);
-		
+		mousePos = new Vector2();
 		setKey(Key.MoveUp, Input.Keys.W);
 		setKey(Key.MoveLeft, Input.Keys.A);
 		setKey(Key.MoveDown, Input.Keys.S);

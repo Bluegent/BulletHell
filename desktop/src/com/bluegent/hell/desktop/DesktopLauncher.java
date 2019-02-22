@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.foregroundFPS = GameCfg.FPS;
 		config.width = GameCfg.Width;
 		config.height = GameCfg.Height;
+		config.samples = 16;
 		new LwjglApplication(new MainGame(), config);
 	}
 }

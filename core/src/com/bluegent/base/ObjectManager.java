@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.bluegent.config.GameCfg;
 import com.bluegent.entities.GameObject;
 import com.bluegent.entities.HitBox;
+import com.bluegent.entities.MouseTrail;
 import com.bluegent.entities.PlayerShip;
 import com.bluegent.interfaces.DrawableShape;
 import com.bluegent.utils.RenderHelper;
@@ -27,6 +28,7 @@ public class ObjectManager {
 	@SuppressWarnings("unused")
 	private KeyActionManager keyManager;
 	private PlayerShip ship;
+	private MouseTrail mTrail;
 	
 	public int getObjectCount()
 	{
@@ -43,14 +45,20 @@ public class ObjectManager {
 		PlayerManager manager = new PlayerManager(ship);
 		keyManager = new KeyActionManager(manager);
 		Controls.setKeyManager(keyManager);
-		drawableS.add(ship);
+
+		mTrail = new MouseTrail(new Vector2(Controls.mousePos),this);
+		//drawableS.add(ship);
 		objects.add(ship);
-		for(int i=0; i<10;++i)
+		drawableS.add(mTrail);
+		objects.add(mTrail);
+		
+		
+		for(int i=0; i<5;++i)
 		{
 			HitBox testBox = new HitBox(new Vector2(GameCfg.Width*(float)Math.random(),GameCfg.Height*(float)Math.random()),this,30,30);
 			enemies.add(testBox);
 			objects.add(testBox);
-			drawableS.add(testBox);
+			//drawableS.add(testBox);
 		}
 	}
 	

@@ -24,7 +24,7 @@ public class LogicHelper {
 	
 	public static double getConeAngle(double cone)
 	{
-		return (cone-Math.random()*cone*2) * radian + Math.PI/2;
+		return (cone-Math.random()*cone*2) * radian;
 	}
 	
 	public static boolean circleCollide(Vector2 point, Vector2 circle, float radius)

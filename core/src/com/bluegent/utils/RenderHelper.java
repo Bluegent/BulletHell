@@ -1,5 +1,7 @@
 package com.bluegent.utils;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -101,6 +103,18 @@ public class RenderHelper {
 		shapeRenderer.end();
 	}
 	
+	
+	public void drawShit(Vector2 pos, float radius, float angle, Color color)
+	{
+		float size = radius * 2;
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(color);
+		//shapeRenderer.rect(pos.x-radius, pos.y -radius, radius,  radius, size, size , 1.0f, 1.0f, angle);
+		shapeRenderer.circle(pos.x, pos.y, size);
+		
+		shapeRenderer.end();
+	}
+	
 	public void drawFillRectangle(Vector2 pos, float radius, float angle, Color color)
 	{
 		float size = radius * 2;
@@ -158,6 +172,74 @@ public class RenderHelper {
 		shapeRenderer.begin(ShapeType.Line);
 		shapeRenderer.setColor(color);
 		shapeRenderer.circle(origin.x, origin.y, radius,(int)(5*Math.random()+5));
+		shapeRenderer.end();
+	}
+	
+	
+	public void drawStar(Vector2 origin, float radius, float dipRadius, int points,float angle, Color color)
+	{
+		shapeRenderer.begin(ShapeType.Line);
+		float angleIncrements = (float)(Math.PI*2/points);
+		float[] vertices = new float[points*4];
+		for(int i=0;i<points;++i)
+		{
+			float currentAngle = angle*(float)LogicHelper.radian+angleIncrements*i;
+			float currentHalf = angle*(float)LogicHelper.radian+angleIncrements*i+angleIncrements/2;
+			vertices[i*4] = origin.x+radius*(float)Math.cos(currentAngle);
+			vertices[i*4+1] = origin.y+radius*(float)Math.sin(currentAngle);
+			vertices[i*4+2] =  origin.x+radius*dipRadius*(float)Math.cos(currentHalf);
+			vertices[i*4+3] = origin.y+ radius*dipRadius*(float)Math.sin(currentHalf);
+			
+		}
+		shapeRenderer.setColor(color);
+		shapeRenderer.polygon(vertices);
+		shapeRenderer.circle(origin.x,origin.y,radius*0.9f);
+		
+		shapeRenderer.end();
+	}
+	
+	
+	
+	public void drawGear(Vector2 origin, float radius, float dipRadius, int points,float angle, Color color)
+	{
+		shapeRenderer.begin(ShapeType.Line);
+		float angleIncrements = (float)(Math.PI*2/points);
+		shapeRenderer.setColor(color);
+		
+		for(int i=0;i<points;++i)
+		{
+		
+			float currentAngle = angle*(float)LogicHelper.radian+angleIncrements*i-angleIncrements/4;
+			float currentHalf = angle*(float)LogicHelper.radian+angleIncrements*i+angleIncrements/4;
+			float startX, startY, endX,endY;
+			startX = origin.x+radius*(float)Math.cos(currentAngle);
+			startY = origin.y+radius*(float)Math.sin(currentAngle);
+			endX = origin.x+radius*(float)Math.cos(currentHalf-angleIncrements/6);
+			endY = origin.y+radius*(float)Math.sin(currentHalf-angleIncrements/6);
+			
+			shapeRenderer.line(startX, startY, endX, endY);
+			
+			currentAngle+= angleIncrements/2;
+			currentHalf+= angleIncrements/2;
+			
+			float astartX, astartY, aendX,aendY;
+			astartX = origin.x+radius*dipRadius*(float)Math.cos(currentAngle);
+			astartY = origin.y+radius*dipRadius*(float)Math.sin(currentAngle);
+			aendX = origin.x+radius*dipRadius*(float)Math.cos(currentHalf-angleIncrements/6);
+			aendY = origin.y+radius*dipRadius*(float)Math.sin(currentHalf-angleIncrements/6);
+			
+			shapeRenderer.line(astartX, astartY, aendX, aendY);
+			
+			shapeRenderer.line(endX, endY, astartX, astartY);
+			currentAngle+= angleIncrements/2;
+			startX = origin.x+radius*(float)Math.cos(currentAngle);
+			startY = origin.y+radius*(float)Math.sin(currentAngle);
+			shapeRenderer.line(aendX, aendY, startX, startY);
+			
+		}
+		
+		shapeRenderer.circle(origin.x,origin.y,radius*dipRadius*0.3f);
+		
 		shapeRenderer.end();
 	}
 }

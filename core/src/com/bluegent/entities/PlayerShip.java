@@ -29,6 +29,8 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	private boolean isInvulnerable;
 	private long invulTimer;
 	private long invulCD;
+	private double shipAngle;
+	private static final double shipTurn = 0.006;
 	
 	private static final Color coneColor = new Color(1,1,1,0.5f);
 	private static final double coneCutoff = 0;
@@ -38,7 +40,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public PlayerShip(Vector2 pos, ObjectManager om) {
 		super(pos,om);
 		graphic = new SpinningRectangle(30, Color.WHITE, pos,parent);
-		trail = new RectangleTrail(pos,15,LogicHelper.getTrailCount(15),Color.WHITE,parent);
+		trail = new Trail(pos,10,LogicHelper.getTrailCount(400),Color.WHITE,parent);
 		trail.setFade(true);
 		velocity = new MyVector(0,0);
 		cooldownMS = 0;
@@ -56,6 +58,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		right.setFlipped(true);
 		
 		hitBox = new HitBox(pos, om,20,20);
+		shipAngle = LogicHelper.halfPI;
 	}
 
 	private void clampVelocity(float deltaT)
@@ -110,7 +113,7 @@ public class PlayerShip extends GameObject implements DrawableShape{
 		m_position.y += (float) velocity.getY() * deltaT;
 		graphic.tick(deltaT);
 		trail.tick(deltaT);
-		double decel = velocity.getMagnitude()-velocity.getMagnitude()*0.009*deltaT;
+		double decel = velocity.getMagnitude()-velocity.getMagnitude()*0.002*deltaT;
 		velocity.setMagnitude(decel);
 		
 		handleTimings(deltaT);
@@ -148,34 +151,39 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	@Override
 	public synchronized void draw(RenderHelper rh) {		
 		trail.draw(rh);
-		drawFireCone(rh);	
-		left.draw(rh);
-		right.draw(rh);
-		graphic.draw(rh);	
-		hitBox.draw(rh);
+		//drawFireCone(rh);	
+		//left.draw(rh);
+		//right.draw(rh);
+		//graphic.draw(rh);	
+		rh.drawRectangle(m_position, 15, (float)(180.0*shipAngle/Math.PI), Color.WHITE);
+		MyVector force = new MyVector(80,shipAngle);
+		rh.drawForceLine(force, m_position, Color.WHITE, 1);
+		//hitBox.draw(rh);
 	}
 	
 	public void moveUp(float deltaT)
 	{
-		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
+		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,shipAngle));
 		dodgeMod = 2;
 	}
 	
 	public void moveRight(float deltaT)
 	{
-		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,0));
+		//velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,0));
+		shipAngle-=shipTurn*deltaT;
 		dodgeMod = -1;
 	}	
 	public void moveDown(float deltaT)
 	{
-		velocity.add(new MyVector(-1*ShipCfg.moveSpeed*deltaT,LogicHelper.halfPI));
+		velocity.add(new MyVector(-1*ShipCfg.moveSpeed*deltaT*0.5,shipAngle));
 		dodgeMod = 2;
 		
 	}
 	
 	public void moveLeft(float deltaT)
 	{
-		velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,Math.PI));
+		//velocity.add(new MyVector(ShipCfg.moveSpeed*deltaT,Math.PI));
+		shipAngle+=shipTurn*deltaT;
 		dodgeMod = 1;
 	}
 	
@@ -198,9 +206,9 @@ public class PlayerShip extends GameObject implements DrawableShape{
 	public void shootBullet(float deltaT)
 	{
 		double angle = LogicHelper.getConeAngle(accuracyCone);
-		PlayerBullet bullet = new PlayerBullet(m_position,parent,angle,BulletCfg.bulletSpeed);
+		PlayerBullet bullet = new PlayerBullet(m_position,parent,shipAngle+angle,BulletCfg.bulletSpeed);
 		
-		velocity.add(new MyVector(BulletCfg.shotRecoil,Math.PI+angle));
+		velocity.add(new MyVector(BulletCfg.shotRecoil,shipAngle+angle));
 		parent.addBullet(bullet);
 		parent.addObject(bullet);
 		

@@ -10,6 +10,7 @@ import com.bluegent.base.BaseGame;
 import com.bluegent.base.Controls;
 import com.bluegent.base.ObjectManager;
 import com.bluegent.config.GameCfg;
+import com.bluegent.utils.LogicHelper;
 import com.bluegent.utils.RenderHelper;
 
 public class MainGame extends BaseGame {
@@ -24,6 +25,7 @@ public class MainGame extends BaseGame {
 	
 	@Override
 	public void create () {
+		
 		Controls.initKeys();
 		batch = new SpriteBatch();
 		
@@ -85,6 +87,12 @@ public class MainGame extends BaseGame {
 	@Override
 	public boolean keyUp(int keycode) {
 		return Controls.setKey(keycode,false);	
+	}
+	
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		Controls.setMousePose(screenX, screenY);
+		return false;
 	}
 
 }
